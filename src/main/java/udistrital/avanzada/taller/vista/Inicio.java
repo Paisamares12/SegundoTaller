@@ -4,6 +4,9 @@
  */
 package udistrital.avanzada.taller.vista;
 
+//Se importan las librerias
+import javax.swing.JButton;
+
 /**
  *
  * @author Paula Martínez
@@ -19,6 +22,28 @@ public class Inicio extends javax.swing.JFrame {
      */
     public Inicio() {
         initComponents();
+        //La ventana queda centrada
+        this.setLocationRelativeTo(null);
+        //No se puede cambiar el tamaño de la imagen
+        this.setResizable(false);
+        
+        //Se le asigna imagen a los paneles
+        JPanelImage bImagen = new JPanelImage(bg, "/Images/Background.jpeg"); //bImagen BackgroundImagen
+        bg.add(bImagen).repaint(); //bg Background
+        JPanelImage lImagen = new JPanelImage(pLogo, "/Images/LogoDos.png"); //lImagen LogoImagen
+        pLogo.add(lImagen).repaint(); //pLogo PanelLogo
+        JPanelImage tImagen = new JPanelImage(pTitulo, "/Images/Titulo.png"); //tImagen TitutloImagen
+        pTitulo.add(tImagen).repaint(); //pTitulo PanelTitulo
+        
+    }
+    
+    /**
+     * Se le genera un get al botonSalir para ser accedido desde otras clases
+     * 
+     * @return botonSalir
+     */
+    public JButton getBotonSalir(){
+        return botonSalir;
     }
 
     /**
@@ -30,17 +55,95 @@ public class Inicio extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        bg = new javax.swing.JPanel();
+        pLogo = new javax.swing.JPanel();
+        pTitulo = new javax.swing.JPanel();
+        botonJugar = new javax.swing.JButton();
+        botonSalir = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        bg.setBackground(new java.awt.Color(204, 0, 0));
+
+        javax.swing.GroupLayout pLogoLayout = new javax.swing.GroupLayout(pLogo);
+        pLogo.setLayout(pLogoLayout);
+        pLogoLayout.setHorizontalGroup(
+            pLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        pLogoLayout.setVerticalGroup(
+            pLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 98, Short.MAX_VALUE)
+        );
+
+        pTitulo.setBackground(new java.awt.Color(245, 132, 114));
+
+        javax.swing.GroupLayout pTituloLayout = new javax.swing.GroupLayout(pTitulo);
+        pTitulo.setLayout(pTituloLayout);
+        pTituloLayout.setHorizontalGroup(
+            pTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+        pTituloLayout.setVerticalGroup(
+            pTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 113, Short.MAX_VALUE)
+        );
+
+        botonJugar.setBackground(new java.awt.Color(132, 72, 62));
+        botonJugar.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N
+        botonJugar.setForeground(new java.awt.Color(0, 0, 0));
+        botonJugar.setText("JUGAR");
+        botonJugar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(0, 0, 0), null, null));
+
+        botonSalir.setBackground(new java.awt.Color(132, 72, 62));
+        botonSalir.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N
+        botonSalir.setForeground(new java.awt.Color(153, 0, 0));
+        botonSalir.setText("SALIR");
+        botonSalir.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(0, 0, 0), null, null));
+
+        javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
+        bg.setLayout(bgLayout);
+        bgLayout.setHorizontalGroup(
+            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bgLayout.createSequentialGroup()
+                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(bgLayout.createSequentialGroup()
+                        .addGap(445, 445, 445)
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(bgLayout.createSequentialGroup()
+                                .addGap(96, 96, 96)
+                                .addComponent(pLogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(bgLayout.createSequentialGroup()
+                        .addGap(483, 483, 483)
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(botonJugar, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(455, Short.MAX_VALUE))
+        );
+        bgLayout.setVerticalGroup(
+            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bgLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(pLogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(96, 96, 96)
+                .addComponent(botonJugar, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(185, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -82,5 +185,10 @@ public class Inicio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel bg;
+    private javax.swing.JButton botonJugar;
+    private javax.swing.JButton botonSalir;
+    private javax.swing.JPanel pLogo;
+    private javax.swing.JPanel pTitulo;
     // End of variables declaration//GEN-END:variables
 }
