@@ -1,5 +1,14 @@
-udistrital\avanzada\taller\control\Launcher.class
-udistrital\avanzada\taller\control\ControlInterfaz.class
+udistrital\avanzada\taller\control\ControlPartida.class
+udistrital\avanzada\taller\modelo\Persona.class
+udistrital\avanzada\taller\vista\JPanelImage.class
 udistrital\avanzada\taller\vista\Inicio$1.class
-udistrital\avanzada\taller\control\ControlLogica.class
+udistrital\avanzada\taller\control\ControlJugadores.class
 udistrital\avanzada\taller\vista\Inicio.class
+udistrital\avanzada\taller\modelo\Equipo.class
+udistrital\avanzada\taller\modelo\Resultado.class
+udistrital\avanzada\taller\modelo\Jugador.class
+udistrital\avanzada\taller\control\ControlInterfaz.class
+udistrital\avanzada\taller\modelo\Lanzamiento.class
+udistrital\avanzada\taller\modelo\Partida.class
+udistrital\avanzada\taller\control\Launcher.class
+udistrital\avanzada\taller\control\ControlLogica.class

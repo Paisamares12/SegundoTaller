@@ -4,6 +4,9 @@
  */
 package udistrital.avanzada.taller.control;
 
+//Importamos librerias
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 //Importamos clases necesarias desde otros paquetes
 import udistrital.avanzada.taller.vista.Inicio;
 
@@ -15,7 +18,7 @@ import udistrital.avanzada.taller.vista.Inicio;
  * La clase ControlInterfaz.java ha sido creada con el fin de
  * manejar toda la interfaz del programa
  */
-public class ControlInterfaz {
+public class ControlInterfaz implements ActionListener {
     
     //Creamos como atributos privados las clases inyectadas desde ControlLogica
     private ControlLogica cLogica;
@@ -28,8 +31,21 @@ public class ControlInterfaz {
         
         //Iniciamos la ventana principal 
         inicio.setVisible(true);
+        
+        this.inicio.getBotonSalir().addActionListener(this);
     }
     
+    @Override
+    public void actionPerformed(ActionEvent e){
+        
+        if (e.getSource() == this.inicio.getBotonSalir()){
+            this.inicio.setVisible(false);
+            System.exit(0);
+            
+            
+        }
+        
+    }
     
     
 }
