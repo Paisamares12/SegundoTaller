@@ -20,14 +20,17 @@ import udistrital.avanzada.taller.vista.VentanaPrincipal;
  */
 public class ControlInterfaz implements ActionListener {
 
-    //Creamos como atributos privados las clases inyectadas desde ControlLogica
+    //Inyectamos ControlLogica
     private ControlLogica cLogica;
+    //Creamos Atributos de las clases
     private Inicio inicio;
     private VentanaPrincipal vPrincipal;
 
     public ControlInterfaz(ControlLogica cLogica) {
-        //Inyección de todas las clases mandadas desde ControlLogica
+        //Inyección
         this.cLogica = cLogica;
+        
+        //Instanciacion
         this.inicio = inicio;
         this.vPrincipal = vPrincipal;
         
