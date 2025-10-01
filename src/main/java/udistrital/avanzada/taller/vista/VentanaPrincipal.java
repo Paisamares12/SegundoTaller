@@ -6,7 +6,11 @@ package udistrital.avanzada.taller.vista;
 
 /**
  *
- * @author paisa
+ * @author Paula Martínez
+ * @version 1.0
+ * 30/09/2025 
+ * La clase VentanaPrincipal.java ha sido creada con el fin de
+ * mostrar el juego principal
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
 
