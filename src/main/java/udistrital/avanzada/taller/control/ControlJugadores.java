@@ -6,7 +6,9 @@ package udistrital.avanzada.taller.control;
 
 /**
  *
- * @author paisa
+ * @author Paula Martínez
+ * @version 1.0 01/10/2025 La clase ControlJugadores.java ha sido creada con el
+ * fin de manejar todo el control de jugadores y demás
  */
 public class ControlJugadores {
     
