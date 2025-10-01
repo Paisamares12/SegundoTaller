@@ -24,7 +24,7 @@ public class Inicio extends javax.swing.JFrame {
         initComponents();
         //La ventana queda centrada
         this.setLocationRelativeTo(null);
-        //No se puede cambiar el tamaño de la imagen
+        //No se puede cambiar el tamaño de la ventana
         this.setResizable(false);
         
         //Se le asigna imagen a los paneles
@@ -44,6 +44,15 @@ public class Inicio extends javax.swing.JFrame {
      */
     public JButton getBotonSalir(){
         return botonSalir;
+    }
+    
+    /**
+     * Se le genera un get al botonJugar para ser accedido desde otras clases
+     * 
+     * @return botonJugar
+     */
+    public JButton getBotonJugar(){
+        return botonJugar;
     }
 
     /**
