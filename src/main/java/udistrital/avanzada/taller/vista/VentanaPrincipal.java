@@ -15,14 +15,15 @@ import udistrital.avanzada.taller.control.ControlInterfaz;
  *
  * @author Paula Martínez
  * @version 1.0 1/10/2025 La clase VentanaPrincipal.java ha sido creada con el
- fin de mostrar el juego
- **/
+ * fin de mostrar el juego
+ *
+ */
 public class VentanaPrincipal extends javax.swing.JFrame {
-    
+
     //Atributos para la carga de archivos y la inyeccion del control
     private ControlInterfaz cInterfaz;
     private JFileChooser fc;
-    
+
     /**
      * Creates new form VentanaPrincipal
      */
@@ -35,40 +36,61 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         //Inyeccion del control
         this.cInterfaz = cInterfaz;
     }
+
     /**
-     * Se le genera un get al label lEquipoA para ser accedido desde ControlInterfaz
-     * 
+     * Se le genera un get al label lEquipoA para ser accedido desde
+     * ControlInterfaz
+     *
      * @return lEquipoA
      */
-    public JLabel getlEquipoA(){
+    public JLabel getlEquipoA() {
         return lEquipoA;
     }
+
     /**
-     * Se le genera un get al label lEquipoB para ser accedido desde ControlInterfaz
-     * 
+     * Se le genera un get al label lEquipoB para ser accedido desde
+     * ControlInterfaz
+     *
      * @return lEquipoB
      */
-    public JLabel getlEquipoB(){
+    public JLabel getlEquipoB() {
         return lEquipoB;
     }
+
     /**
-     * Se le genera un get al label VentanaPrincipal para ser accedido desde ControlInterfaz
-     * 
+     * Se le genera un get al label VentanaPrincipal para ser accedido desde
+     * ControlInterfaz
+     *
      * @return VentanaPrincipal
      */
-    public JLabel getlJugadorA(){
+    public JLabel getlJugadorA() {
         return lJugadorA;
     }
+
     /**
-     * Se le genera un get al label lJugadorB para ser accedido desde ControlInterfaz
-     * 
+     * Se le genera un get al label lJugadorB para ser accedido desde
+     * ControlInterfaz
+     *
      * @return lEquipoB
      */
-    public JLabel getlJugadoroB(){
+    public JLabel getlJugadoroB() {
         return lJugadorB;
     }
-    
-    public File getFile(){
+
+    /**
+     * * Abre un cuadro de diálogo para seleccionar un archivo y devuelve el
+     * archivo elegido.
+     * <p>
+     * Este método utiliza un {@link JFileChooser} inicializado en el directorio
+     * de trabajo * actual de la aplicación (obtenido con
+     * <code>System.getProperty("user.dir")</code>). * Una vez abierto el cuadro
+     * de diálogo, el usuario puede navegar en su sistema de archivos * y
+     * seleccionar un archivo. El método devuelve el archivo seleccionado. *
+     * </p> * * @return El archivo seleccionado por el usuario como objeto
+     * {@link File}. * Si el usuario cancela la operación, el método devolverá
+     * {@code null}.
+     */
+    public File getFile() {
         fc = new JFileChooser(System.getProperty("user.dir"));
         fc.showOpenDialog(fc);
         return fc.getSelectedFile();
