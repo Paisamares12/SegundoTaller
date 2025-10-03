@@ -4,6 +4,7 @@
  */
 package udistrital.avanzada.taller.control;
 //Importar las clases necesarias traidas desde otros paquetes
+import udistrital.avanzada.taller.modelo.Conexion;
 
 /**
  *
@@ -11,19 +12,23 @@ package udistrital.avanzada.taller.control;
  * @version 1.0
  * 30/09/2025 
  * La clase ControlLogica.java ha sido creada con el fin de manejar toda la lógica
- * del aplicativo
+ * del aplicativo, conectar modelo con control
  */
 public class ControlLogica {
 
     //Creamos como atributos privados las clases necesarias
     private ControlInterfaz cInterfaz;
-        
-    //Creamos el constructor el cual se usa apenas se lanza el launcher
+    private Conexion cnx;
+     /**
+     * Constructor clase ControlLogica el cual se usa apenas se lanza el
+     * launcher
+     * 
+     */
     public ControlLogica() {
-        
-        //Inyectamos ControlLogica (mandamos su copia)
-        cInterfaz = new ControlInterfaz(this);
-        
+       //Inyectamos ControlLogica (mandamos su copia) a ControlInterfaz
+       cInterfaz = new ControlInterfaz(this);
+       //Se pasa el archivo obtenido desde la ventana a la conexion
+       cnx = new Conexion(cInterfaz.darArchivo());
     }  
     
 }

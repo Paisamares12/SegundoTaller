@@ -4,19 +4,74 @@
  */
 package udistrital.avanzada.taller.vista;
 
+//Importacion de librerias
+import java.io.File;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+//Importacion de la clase ControlInterfaz
+import udistrital.avanzada.taller.control.ControlInterfaz;
+
 /**
  *
  * @author Paula Martínez
  * @version 1.0 1/10/2025 La clase VentanaPrincipal.java ha sido creada con el
- * fin de mostrar el juego
+ fin de mostrar el juego
  **/
 public class VentanaPrincipal extends javax.swing.JFrame {
-
+    
+    //Atributos para la carga de archivos y la inyeccion del control
+    private ControlInterfaz cInterfaz;
+    private JFileChooser fc;
+    
     /**
      * Creates new form VentanaPrincipal
      */
-    public VentanaPrincipal() {
+    public VentanaPrincipal(ControlInterfaz cInterfaz) {
         initComponents();
+        //La ventana queda centrada
+        this.setLocationRelativeTo(null);
+        //No se puede cambiar el tamaño de la ventana
+        this.setResizable(false);
+        //Inyeccion del control
+        this.cInterfaz = cInterfaz;
+    }
+    /**
+     * Se le genera un get al label lEquipoA para ser accedido desde ControlInterfaz
+     * 
+     * @return lEquipoA
+     */
+    public JLabel getlEquipoA(){
+        return lEquipoA;
+    }
+    /**
+     * Se le genera un get al label lEquipoB para ser accedido desde ControlInterfaz
+     * 
+     * @return lEquipoB
+     */
+    public JLabel getlEquipoB(){
+        return lEquipoB;
+    }
+    /**
+     * Se le genera un get al label VentanaPrincipal para ser accedido desde ControlInterfaz
+     * 
+     * @return VentanaPrincipal
+     */
+    public JLabel getlJugadorA(){
+        return lJugadorA;
+    }
+    /**
+     * Se le genera un get al label lJugadorB para ser accedido desde ControlInterfaz
+     * 
+     * @return lEquipoB
+     */
+    public JLabel getlJugadoroB(){
+        return lJugadorB;
+    }
+    
+    public File getFile(){
+        fc = new JFileChooser(System.getProperty("user.dir"));
+        fc.showOpenDialog(fc);
+        return fc.getSelectedFile();
     }
 
     /**
@@ -29,42 +84,141 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         bg = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        pEquipoA = new javax.swing.JPanel();
+        lEquipoA = new javax.swing.JLabel();
+        lJugadorA = new javax.swing.JLabel();
+        botonLanzarArgollaUno = new javax.swing.JButton();
+        pFoto = new javax.swing.JPanel();
+        pEquipoB = new javax.swing.JPanel();
+        lEquipoB = new javax.swing.JLabel();
+        lJugadorB = new javax.swing.JLabel();
+        botonLanzarArgollaDos = new javax.swing.JButton();
+        pFoto1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         bg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(102, 255, 102));
+        pEquipoA.setBackground(new java.awt.Color(102, 255, 102));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+        lEquipoA.setFont(new java.awt.Font("Bookman Old Style", 1, 24)); // NOI18N
+        lEquipoA.setForeground(new java.awt.Color(133, 71, 62));
+        lEquipoA.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lEquipoA.setText("EQUIPO A");
+
+        lJugadorA.setFont(new java.awt.Font("Bookman Old Style", 1, 18)); // NOI18N
+        lJugadorA.setForeground(new java.awt.Color(0, 0, 0));
+        lJugadorA.setText("JUGADOR");
+
+        botonLanzarArgollaUno.setBackground(new java.awt.Color(132, 72, 62));
+        botonLanzarArgollaUno.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N
+        botonLanzarArgollaUno.setForeground(new java.awt.Color(255, 255, 51));
+        botonLanzarArgollaUno.setText("Lanzar Argolla");
+        botonLanzarArgollaUno.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        javax.swing.GroupLayout pFotoLayout = new javax.swing.GroupLayout(pFoto);
+        pFoto.setLayout(pFotoLayout);
+        pFotoLayout.setHorizontalGroup(
+            pFotoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 690, Short.MAX_VALUE)
+        pFotoLayout.setVerticalGroup(
+            pFotoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
 
-        bg.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 690));
-
-        jPanel2.setBackground(new java.awt.Color(255, 0, 0));
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+        javax.swing.GroupLayout pEquipoALayout = new javax.swing.GroupLayout(pEquipoA);
+        pEquipoA.setLayout(pEquipoALayout);
+        pEquipoALayout.setHorizontalGroup(
+            pEquipoALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lEquipoA, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(pEquipoALayout.createSequentialGroup()
+                .addGroup(pEquipoALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pEquipoALayout.createSequentialGroup()
+                        .addGap(172, 172, 172)
+                        .addComponent(botonLanzarArgollaUno, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pEquipoALayout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(pFoto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(111, 111, 111)
+                        .addComponent(lJugadorA)))
+                .addContainerGap(177, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 690, Short.MAX_VALUE)
+        pEquipoALayout.setVerticalGroup(
+            pEquipoALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pEquipoALayout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addComponent(lEquipoA)
+                .addGap(27, 27, 27)
+                .addGroup(pEquipoALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lJugadorA)
+                    .addComponent(pFoto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 372, Short.MAX_VALUE)
+                .addComponent(botonLanzarArgollaUno, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44))
         );
 
-        bg.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 0, 600, 690));
+        bg.add(pEquipoA, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 690));
+
+        pEquipoB.setBackground(new java.awt.Color(255, 0, 0));
+
+        lEquipoB.setFont(new java.awt.Font("Bookman Old Style", 1, 24)); // NOI18N
+        lEquipoB.setForeground(new java.awt.Color(133, 71, 62));
+        lEquipoB.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lEquipoB.setText("EQUIPO B");
+
+        lJugadorB.setFont(new java.awt.Font("Bookman Old Style", 1, 18)); // NOI18N
+        lJugadorB.setForeground(new java.awt.Color(0, 0, 0));
+        lJugadorB.setText("JUGADOR");
+
+        botonLanzarArgollaDos.setBackground(new java.awt.Color(132, 72, 62));
+        botonLanzarArgollaDos.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N
+        botonLanzarArgollaDos.setForeground(new java.awt.Color(255, 255, 51));
+        botonLanzarArgollaDos.setText("Lanzar Argolla");
+        botonLanzarArgollaDos.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        javax.swing.GroupLayout pFoto1Layout = new javax.swing.GroupLayout(pFoto1);
+        pFoto1.setLayout(pFoto1Layout);
+        pFoto1Layout.setHorizontalGroup(
+            pFoto1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        pFoto1Layout.setVerticalGroup(
+            pFoto1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout pEquipoBLayout = new javax.swing.GroupLayout(pEquipoB);
+        pEquipoB.setLayout(pEquipoBLayout);
+        pEquipoBLayout.setHorizontalGroup(
+            pEquipoBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lEquipoB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pEquipoBLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(botonLanzarArgollaDos, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(173, 173, 173))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pEquipoBLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(pFoto1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                .addComponent(lJugadorB)
+                .addGap(264, 264, 264))
+        );
+        pEquipoBLayout.setVerticalGroup(
+            pEquipoBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pEquipoBLayout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addComponent(lEquipoB)
+                .addGap(28, 28, 28)
+                .addGroup(pEquipoBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lJugadorB)
+                    .addComponent(pFoto1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 369, Short.MAX_VALUE)
+                .addComponent(botonLanzarArgollaDos, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(54, 54, 54))
+        );
+
+        bg.add(pEquipoB, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 0, 600, 690));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -82,7 +236,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton botonLanzarArgollaDos;
+    private javax.swing.JButton botonLanzarArgollaUno;
+    private javax.swing.JLabel lEquipoA;
+    private javax.swing.JLabel lEquipoB;
+    private javax.swing.JLabel lJugadorA;
+    private javax.swing.JLabel lJugadorB;
+    private javax.swing.JPanel pEquipoA;
+    private javax.swing.JPanel pEquipoB;
+    private javax.swing.JPanel pFoto;
+    private javax.swing.JPanel pFoto1;
     // End of variables declaration//GEN-END:variables
 }
