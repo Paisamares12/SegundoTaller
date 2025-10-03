@@ -11,9 +11,15 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author paisa
+ * @author Paula Martínez
+ * @version 1.0
+ * 30/09/2025 
+ * La clase JPanelImage.java ha sido creada con el fin de
+ * poner imagenes en paneles
+ * 
+ * //Codigo sacado de https://www.youtube.com/watch?v=wdoiH4c44pA&t=2s
  */
-//Codigo sacado de https://www.youtube.com/watch?v=wdoiH4c44pA&t=2s
+
 
 public class JPanelImage extends JLabel {
     
