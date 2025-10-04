@@ -5,8 +5,10 @@ udistrital\avanzada\taller\vista\VentanaPrincipal.class
 udistrital\avanzada\taller\control\ControlJugadores.class
 udistrital\avanzada\taller\vista\Inicio.class
 udistrital\avanzada\taller\modelo\Conexion.class
+udistrital\avanzada\taller\control\EjemploUso.class
 udistrital\avanzada\taller\modelo\Equipo.class
 udistrital\avanzada\taller\modelo\Resultado.class
+udistrital\avanzada\taller\control\ControlEquipos.class
 udistrital\avanzada\taller\modelo\Jugador.class
 udistrital\avanzada\taller\control\ControlInterfaz.class
 udistrital\avanzada\taller\modelo\Lanzamiento.class
