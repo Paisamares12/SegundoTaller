@@ -6,6 +6,7 @@ package udistrital.avanzada.taller.vista;
 
 //Importacion de librerias
 import java.io.File;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 //Importacion de la clase ControlInterfaz
@@ -67,6 +68,23 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     public JLabel getlJugadoroB(){
         return lJugadorB;
     }
+    /**
+     * Se le genera un get al botonLanzarArgollaUno para ser accedido desde ControlInterfaz
+     * 
+     * @return botonLanzarArgollaUno
+     */
+    public JButton getBotonLanzarArgollaUno(){
+        return botonLanzarArgollaUno;
+    }
+    /**
+     * Se le genera un get al botonLanzarArgollaDos para ser accedido desde ControlInterfaz
+     * 
+     * @return botonLanzarArgollaDos
+     */
+    public JButton getBotonLanzarArgollaDos(){
+        return botonLanzarArgollaDos;
+    }
+    
     
     public File getFile(){
         fc = new JFileChooser(System.getProperty("user.dir"));

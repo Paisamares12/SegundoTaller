@@ -27,9 +27,9 @@ public class Equipo {
      * @param nombre
      * @param jugadores 
      */
-    public Equipo(String nombre, ArrayList<Jugador> jugadores) {
+    public Equipo(String nombre) {
         this.nombre = nombre;
-        this.jugadores = jugadores;
+        this.jugadores = new ArrayList<>();
     }
     
     /**
