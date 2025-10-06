@@ -14,11 +14,11 @@ import udistrital.avanzada.taller.modelo.Jugador;
  * solo gestiona la lógica de los jugadores, no persistencia ni GUI.
  *
  * Originalmente creada por Paula Martínez
- * Modificada por Juan Sebastián Bravo Rojas
+ * Modificada por Juan Sebastián Bravo Rojas 
  * 
  * 
  * @author Paula Martinez
- * @version 4.0
+ * @version 5.0
  * 06/10/2025
  */
 public class ControlJugadores {

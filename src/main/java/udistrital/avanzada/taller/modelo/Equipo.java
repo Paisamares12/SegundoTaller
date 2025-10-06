@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Modificada por Juan Sebastián Bravo Rojas
  * 
  * @author Paula Martínez
- * @version 4.0
+ * @version 5.0
  * 06/10/2025
  */
 public class Equipo {

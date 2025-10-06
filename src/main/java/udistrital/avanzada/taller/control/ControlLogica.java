@@ -3,43 +3,34 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package udistrital.avanzada.taller.control;
-//Importar las clases necesarias traidas desde otros paquetes
+
 import java.io.File;
-import udistrital.avanzada.taller.modelo.Conexion;
 import udistrital.avanzada.taller.modelo.Equipo;
-//Importar Librerias importantes
 import java.util.List;
-import java.io.IOException;
 import udistrital.avanzada.taller.modelo.persistencia.ControlPersistencia;
 
 /**
- *
+ * Clase que maneja toda la lógica del aplicativo, conecta modelo con control.
+ * 
  * Originalmente creada por Paula Martínez
- * Modificada por Juan Sebastián Bravo Rojas
+ * Modificada por Juan Sebastián Bravo Rojas y Juan Ariza
  * 
  * 
  * @author Paula Martínez
  * @version 4.0 06/10/2025 
- * La clase ControlLogica.java ha sido creada con el fin
- * de manejar toda la lógica del aplicativo, conectar modelo con control
  */
 public class ControlLogica {
 
-    //Creamos como atributos privados las clases necesarias
     private ControlInterfaz cInterfaz;
     private ControlPartida cPartida;
     private ControlPersistencia cPersistencia;
-    //Listas
     private List<Equipo> equipos;
 
     /**
-     * Constructor clase ControlLogica el cual se usa apenas se lanza el
-     * launcher
-     *
+     * Constructor clase ControlLogica.
      */
     public ControlLogica() {
-        //Inyectamos ControlLogica (mandamos su copia) a ControlInterfaz
-        this.cInterfaz= new ControlInterfaz(this);
+        this.cInterfaz = new ControlInterfaz(this);
         this.cPersistencia = new ControlPersistencia();
         this.cPartida = new ControlPartida();
     }
@@ -56,7 +47,7 @@ public class ControlLogica {
     }
     
     /**
-     * Devuelve el controlador de partida (usado por ControlInterfaz)
+     * Devuelve el controlador de partida.
      */
     public ControlPartida getControlPartida() {
         return cPartida;
@@ -95,13 +86,12 @@ public class ControlLogica {
     }
 
     /**
-     * Devuelve el nombre del equipo ganador, si ya hay uno.
+     * Devuelve el equipo ganador, si ya hay uno.
      * 
-     * @return nombre del equipo ganador o null
+     * @return equipo ganador o null
      */
-    public String getGanador() {
-        var ganador = cPartida.getGanador();
-        return (ganador != null) ? ganador.getNombre() : null;
+    public Equipo getGanador() {
+        return cPartida.getGanador();
     }
 
     /**
@@ -113,5 +103,30 @@ public class ControlLogica {
         return cPartida.getEquipoEnTurno();
     }
     
-
+    /**
+     * Avanza a la siguiente ronda.
+     * 
+     * @return true si se pudo avanzar
+     */
+    public boolean avanzarRonda() {
+        return cPartida.avanzarRonda();
+    }
+    
+    /**
+     * Obtiene el número de ronda actual.
+     * 
+     * @return número de ronda
+     */
+    public int getRondaActual() {
+        return cPartida.getRondaActual();
+    }
+    
+    /**
+     * Verifica si se pueden jugar más rondas.
+     * 
+     * @return true si hay rondas disponibles
+     */
+    public boolean puedeJugarOtraRonda() {
+        return cPartida.puedeJugarOtraRonda();
+    }
 }

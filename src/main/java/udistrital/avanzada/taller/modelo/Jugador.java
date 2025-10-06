@@ -12,7 +12,7 @@ package udistrital.avanzada.taller.modelo;
  * Modificada por Juan Sebastián Bravo Rojas
  * 
  * @author Paula Martínez
- * @version 4.0
+ * @version 5.0
  * 06/10/2025
  */
 public class Jugador extends Persona {
