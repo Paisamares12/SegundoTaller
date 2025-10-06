@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Clase que conecta la persistencia del archivo con el resto del aplicativo
  *
  * @author Paula Martínez
- * @version 4.0 06/10/2025
+ * @version 5.0 06/10/2025
  */
 public class Conexion {
 

@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package udistrital.avanzada.taller.modelo.persistencia;
 
 import udistrital.avanzada.taller.modelo.Equipo;
@@ -10,8 +14,8 @@ import java.util.*;
  * Maneja la carga de datos desde un archivo .properties.
  * Lee equipos y jugadores con sus atributos (nombre, apodo, foto).
  *
- * @author Juan Sebastián Bravo Rojas
- * @version 4.0 - 06/10/2025
+ * @author Juan SebastiÃ¡n Bravo Rojas
+ * @version 5.0 - 06/10/2025
  */
 public class ControlPersistencia {
 
@@ -20,6 +24,8 @@ public class ControlPersistencia {
      * @param archivo archivo .properties seleccionado por el usuario
      * @return lista de equipos cargados
      */
+    
+    //TODO: Revisar selección de equipos en el archivo de propiedades
     public List<Equipo> cargarEquiposDesdeArchivo(File archivo) {
         List<Equipo> equipos = new ArrayList<>();
 
@@ -62,7 +68,7 @@ public class ControlPersistencia {
         }
 
         if (equipos.isEmpty()) {
-            throw new IllegalStateException("No se encontraron equipos válidos en el archivo.");
+            throw new IllegalStateException("No se encontraron equipos vÃ¡lidos en el archivo.");
         }
 
         return equipos;
@@ -73,6 +79,8 @@ public class ControlPersistencia {
      * @param archivo destino del guardado
      * @param equipos lista de equipos con sus puntajes
      */
+    
+    //TODO: Revisar para guardar correctamente el nombre de los jugadores
     public void guardarResultados(File archivo, List<Equipo> equipos) {
         Properties props = new Properties();
 
@@ -99,4 +107,5 @@ public class ControlPersistencia {
         }
     }
 }
+
 

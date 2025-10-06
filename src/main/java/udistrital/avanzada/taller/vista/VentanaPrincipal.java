@@ -1,28 +1,26 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package udistrital.avanzada.taller.vista;
 
-import java.awt.Font;
+import java.awt.*;
 import java.util.List;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import udistrital.avanzada.taller.control.ControlInterfaz;
 import udistrital.avanzada.taller.modelo.Equipo;
+import udistrital.avanzada.taller.modelo.Jugador;
 
 /**
- * Ventana principal del juego Argolla Llanera.
+ * Ventana principal mejorada del juego Argolla Llanera.
  * 
- * Muestra los equipos, permite realizar lanzamientos y ver los resultados.
- * 
- * Esta clase pertenece a la capa de vista (no contiene lógica de juego).
+ * Creada originalmente por Juan Sebastian Bravo Rojas
+ * Modificada: Juan Ariza
  * 
  * @author Juan Sebastián Bravo Rojas
- * @version 4.0 - 06/10/2025
+ * @version 5.0 - 06/10/2025
  */
-public class VentanaPrincipal extends javax.swing.JFrame {
+public class VentanaPrincipal extends JFrame {
 
     private final ControlInterfaz control;
     private final List<Equipo> equipos;
@@ -31,100 +29,227 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private JTextArea areaResultados;
     private JLabel labelEquipoUno;
     private JLabel labelEquipoDos;
+    private JLabel labelPuntajeUno;
+    private JLabel labelPuntajeDos;
+    private JLabel labelRonda;
+    private JButton botonLanzarArgollaUno;
+    private JButton botonLanzarArgollaDos;
+    private JPanel panelEquipoUno;
+    private JPanel panelEquipoDos;
+    private JTextArea infoJugadoresUno;
+    private JTextArea infoJugadoresDos;
 
-    /**
-     * Constructor que recibe el controlador y la lista de equipos cargados.
-     * 
-     * @param control referencia al controlador de interfaz
-     * @param equipos lista de equipos cargados desde ControlPersistencia
-     */
     public VentanaPrincipal(ControlInterfaz control, List<Equipo> equipos) {
         this.control = control;
         this.equipos = equipos;
-
         inicializarComponentes();
         configurarVentana();
     }
 
-    /**
-     * Configura propiedades generales de la ventana.
-     */
     private void configurarVentana() {
-        setTitle("Argolla Llanera - Ventana Principal");
+        setTitle("Argolla Llanera - ¡Que gane el mejor equipo!");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(false);
     }
 
-    /**
-     * Inicializa todos los componentes visuales.
-     */
     private void inicializarComponentes() {
-        JPanel panelPrincipal = new JPanel();
-        panelPrincipal.setLayout(null);
+        // Panel principal con BorderLayout
+        JPanel panelPrincipal = new JPanel(new BorderLayout(10, 10));
+        panelPrincipal.setBackground(new Color(245, 245, 220));
 
-        labelEquipoUno = new JLabel();
-        labelEquipoDos = new JLabel();
-        botonLanzarArgollaUno = new JButton("Lanzar Argolla - Equipo 1");
-        botonLanzarArgollaDos = new JButton("Lanzar Argolla - Equipo 2");
-        areaResultados = new JTextArea();
-        JScrollPane scrollResultados = new JScrollPane(areaResultados);
-
-        labelEquipoUno.setFont(new Font("Monospaced", Font.BOLD, 20));
-        labelEquipoDos.setFont(new Font("Monospaced", Font.BOLD, 20));
-
-        botonLanzarArgollaUno.setFont(new Font("Monospaced", Font.PLAIN, 16));
-        botonLanzarArgollaDos.setFont(new Font("Monospaced", Font.PLAIN, 16));
+        // Panel superior - Información de ronda
+        JPanel panelSuperior = crearPanelSuperior();
         
-        areaResultados.setEditable(false);
-        areaResultados.setFont(new Font("Monospaced", Font.PLAIN, 14));
+        // Panel central - Equipos y controles
+        JPanel panelCentral = crearPanelCentral();
+        
+        // Panel inferior - Área de resultados
+        JPanel panelInferior = crearPanelInferior();
 
-        // Mostrar los nombres de los equipos
-        if (equipos != null && equipos.size() >= 2) {
-            labelEquipoUno.setText("Equipo 1: " + equipos.get(0).getNombre());
-            labelEquipoDos.setText("Equipo 2: " + equipos.get(1).getNombre());
-        } else {
-            labelEquipoUno.setText("Equipo 1: ---");
-            labelEquipoDos.setText("Equipo 2: ---");
-        }
-
-        // Posiciones
-        labelEquipoUno.setBounds(50, 30, 400, 30);
-        labelEquipoDos.setBounds(50, 70, 400, 30);
-        botonLanzarArgollaUno.setBounds(500, 30, 250, 40);
-        botonLanzarArgollaDos.setBounds(500, 80, 250, 40);
-        scrollResultados.setBounds(50, 150, 700, 300);
-
-        panelPrincipal.add(labelEquipoUno);
-        panelPrincipal.add(labelEquipoDos);
-        panelPrincipal.add(botonLanzarArgollaUno);
-        panelPrincipal.add(botonLanzarArgollaDos);
-        panelPrincipal.add(scrollResultados);
+        panelPrincipal.add(panelSuperior, BorderLayout.NORTH);
+        panelPrincipal.add(panelCentral, BorderLayout.CENTER);
+        panelPrincipal.add(panelInferior, BorderLayout.SOUTH);
 
         getContentPane().add(panelPrincipal);
-        setSize(820, 550);
+        setSize(1000, 750);
     }
 
-    /**
-     * Actualiza el área de resultados con el texto más reciente.
-     * 
-     * @param texto texto a mostrar en la zona de resultados
-     */
+    private JPanel crearPanelSuperior() {
+        JPanel panel = new JPanel();
+        panel.setBackground(new Color(139, 69, 19));
+        panel.setPreferredSize(new Dimension(1000, 80));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        JLabel titulo = new JLabel("ARGOLLA LLANERA");
+        titulo.setFont(new Font("Arial Black", Font.BOLD, 28));
+        titulo.setForeground(Color.WHITE);
+        
+        labelRonda = new JLabel("RONDA 1 de 2 - Juego a 21 puntos");
+        labelRonda.setFont(new Font("Arial", Font.BOLD, 18));
+        labelRonda.setForeground(Color.YELLOW);
+        
+        panel.setLayout(new GridLayout(2, 1));
+        panel.add(titulo);
+        panel.add(labelRonda);
+
+        return panel;
+    }
+
+    private JPanel crearPanelCentral() {
+        JPanel panel = new JPanel(new GridLayout(1, 2, 15, 0));
+        panel.setBackground(new Color(245, 245, 220));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Panel Equipo 1
+        panelEquipoUno = crearPanelEquipo(0, new Color(102, 205, 170));
+        
+        // Panel Equipo 2
+        panelEquipoDos = crearPanelEquipo(1, new Color(255, 160, 122));
+
+        panel.add(panelEquipoUno);
+        panel.add(panelEquipoDos);
+
+        return panel;
+    }
+
+    private JPanel crearPanelEquipo(int indice, Color colorFondo) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBackground(colorFondo);
+        panel.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(Color.BLACK, 3),
+            BorderFactory.createEmptyBorder(15, 15, 15, 15)
+        ));
+
+        Equipo equipo = equipos.get(indice);
+
+        // Nombre del equipo
+        JLabel labelNombre = new JLabel(equipo.getNombre());
+        labelNombre.setFont(new Font("Arial Black", Font.BOLD, 24));
+        labelNombre.setAlignmentX(Component.CENTER_ALIGNMENT);
+        labelNombre.setForeground(new Color(139, 69, 19));
+
+        // Puntaje
+        JLabel labelPuntaje;
+        if (indice == 0) {
+            labelPuntajeUno = new JLabel("Puntaje: 0");
+            labelPuntaje = labelPuntajeUno;
+        } else {
+            labelPuntajeDos = new JLabel("Puntaje: 0");
+            labelPuntaje = labelPuntajeDos;
+        }
+        labelPuntaje.setFont(new Font("Arial", Font.BOLD, 20));
+        labelPuntaje.setAlignmentX(Component.CENTER_ALIGNMENT);
+        labelPuntaje.setForeground(Color.BLACK);
+
+        // Información de jugadores
+        JTextArea infoJugadores = new JTextArea();
+        infoJugadores.setEditable(false);
+        infoJugadores.setFont(new Font("Monospaced", Font.PLAIN, 13));
+        infoJugadores.setBackground(new Color(255, 255, 240));
+        infoJugadores.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append("JUGADORES:\n\n");
+        List<Jugador> jugadores = equipo.getJugadores();
+        for (int i = 0; i < Math.min(4, jugadores.size()); i++) {
+            Jugador j = jugadores.get(i);
+            sb.append(String.format("  %d. %s\n", i+1, j.getNombre()));
+            sb.append(String.format("     \"%s\"\n\n", j.getApodo()));
+        }
+        infoJugadores.setText(sb.toString());
+        
+        if (indice == 0) {
+            infoJugadoresUno = infoJugadores;
+        } else {
+            infoJugadoresDos = infoJugadores;
+        }
+
+        JScrollPane scrollJugadores = new JScrollPane(infoJugadores);
+        scrollJugadores.setPreferredSize(new Dimension(400, 200));
+        scrollJugadores.setMaximumSize(new Dimension(400, 200));
+
+        // Botón de lanzar
+        JButton botonLanzar = new JButton("LANZAR ARGOLLA");
+        botonLanzar.setFont(new Font("Arial", Font.BOLD, 18));
+        botonLanzar.setAlignmentX(Component.CENTER_ALIGNMENT);
+        botonLanzar.setBackground(new Color(139, 69, 19));
+        botonLanzar.setForeground(Color.WHITE);
+        botonLanzar.setFocusPainted(false);
+        botonLanzar.setBorder(BorderFactory.createRaisedBevelBorder());
+        botonLanzar.setMaximumSize(new Dimension(250, 50));
+        botonLanzar.setPreferredSize(new Dimension(250, 50));
+
+        if (indice == 0) {
+            botonLanzarArgollaUno = botonLanzar;
+        } else {
+            botonLanzarArgollaDos = botonLanzar;
+        }
+
+        // Agregar componentes al panel
+        panel.add(labelNombre);
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
+        panel.add(labelPuntaje);
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        panel.add(scrollJugadores);
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        panel.add(botonLanzar);
+
+        return panel;
+    }
+
+    private JPanel crearPanelInferior() {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(new Color(245, 245, 220));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        JLabel labelTitulo = new JLabel("HISTORIAL DE LANZAMIENTOS");
+        labelTitulo.setFont(new Font("Arial", Font.BOLD, 16));
+        labelTitulo.setForeground(new Color(139, 69, 19));
+
+        areaResultados = new JTextArea();
+        areaResultados.setEditable(false);
+        areaResultados.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        areaResultados.setBackground(new Color(255, 255, 240));
+        areaResultados.setText("Esperando el primer lanzamiento...\n");
+
+        JScrollPane scroll = new JScrollPane(areaResultados);
+        scroll.setPreferredSize(new Dimension(960, 200));
+
+        panel.add(labelTitulo, BorderLayout.NORTH);
+        panel.add(scroll, BorderLayout.CENTER);
+
+        return panel;
+    }
+
     public void actualizarResultado(String texto) {
         areaResultados.append(texto + "\n\n");
+        areaResultados.setCaretPosition(areaResultados.getDocument().getLength());
     }
 
-    /**
-     * Muestra un mensaje emergente (JOptionPane).
-     * 
-     * @param msg mensaje a mostrar
-     */
+    public void actualizarPuntajes() {
+        if (equipos.size() >= 2) {
+            labelPuntajeUno.setText("Puntaje: " + equipos.get(0).getPuntaje());
+            labelPuntajeDos.setText("Puntaje: " + equipos.get(1).getPuntaje());
+        }
+    }
+
+    public void actualizarRonda() {
+        // Obtener la ronda actual desde el control
+        labelRonda.setText("RONDA " + control.getRondaActual() + " de 2 - Juego a 21 puntos");
+    }
+
+    public void limpiarResultados() {
+        areaResultados.setText("Nueva ronda iniciada...\n\n");
+    }
+
     public void mostrarMensaje(String msg) {
         JOptionPane.showMessageDialog(this, msg);
     }
 
-    // Getters para acceder desde ControlInterfaz
+    // Getters
     public JButton getBotonLanzarArgollaUno() {
         return botonLanzarArgollaUno;
     }
@@ -140,178 +265,4 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     public List<Equipo> getEquipos() {
         return equipos;
     }
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
-        bg = new javax.swing.JPanel();
-        pEquipoA = new javax.swing.JPanel();
-        lEquipoA = new javax.swing.JLabel();
-        lJugadorA = new javax.swing.JLabel();
-        botonLanzarArgollaUno = new javax.swing.JButton();
-        pFoto = new javax.swing.JPanel();
-        pEquipoB = new javax.swing.JPanel();
-        lEquipoB = new javax.swing.JLabel();
-        lJugadorB = new javax.swing.JLabel();
-        botonLanzarArgollaDos = new javax.swing.JButton();
-        pFoto1 = new javax.swing.JPanel();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        bg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        pEquipoA.setBackground(new java.awt.Color(102, 255, 102));
-
-        lEquipoA.setFont(new java.awt.Font("Bookman Old Style", 1, 24)); // NOI18N
-        lEquipoA.setForeground(new java.awt.Color(133, 71, 62));
-        lEquipoA.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lEquipoA.setText("EQUIPO A");
-
-        lJugadorA.setFont(new java.awt.Font("Bookman Old Style", 1, 18)); // NOI18N
-        lJugadorA.setForeground(new java.awt.Color(0, 0, 0));
-        lJugadorA.setText("JUGADOR");
-
-        botonLanzarArgollaUno.setBackground(new java.awt.Color(132, 72, 62));
-        botonLanzarArgollaUno.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N
-        botonLanzarArgollaUno.setForeground(new java.awt.Color(255, 255, 51));
-        botonLanzarArgollaUno.setText("Lanzar Argolla");
-        botonLanzarArgollaUno.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        javax.swing.GroupLayout pFotoLayout = new javax.swing.GroupLayout(pFoto);
-        pFoto.setLayout(pFotoLayout);
-        pFotoLayout.setHorizontalGroup(
-            pFotoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
-        );
-        pFotoLayout.setVerticalGroup(
-            pFotoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout pEquipoALayout = new javax.swing.GroupLayout(pEquipoA);
-        pEquipoA.setLayout(pEquipoALayout);
-        pEquipoALayout.setHorizontalGroup(
-            pEquipoALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lEquipoA, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(pEquipoALayout.createSequentialGroup()
-                .addGroup(pEquipoALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pEquipoALayout.createSequentialGroup()
-                        .addGap(172, 172, 172)
-                        .addComponent(botonLanzarArgollaUno, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pEquipoALayout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(pFoto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(111, 111, 111)
-                        .addComponent(lJugadorA)))
-                .addContainerGap(177, Short.MAX_VALUE))
-        );
-        pEquipoALayout.setVerticalGroup(
-            pEquipoALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pEquipoALayout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addComponent(lEquipoA)
-                .addGap(27, 27, 27)
-                .addGroup(pEquipoALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lJugadorA)
-                    .addComponent(pFoto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 372, Short.MAX_VALUE)
-                .addComponent(botonLanzarArgollaUno, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44))
-        );
-
-        bg.add(pEquipoA, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 690));
-
-        pEquipoB.setBackground(new java.awt.Color(255, 0, 0));
-
-        lEquipoB.setFont(new java.awt.Font("Bookman Old Style", 1, 24)); // NOI18N
-        lEquipoB.setForeground(new java.awt.Color(133, 71, 62));
-        lEquipoB.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lEquipoB.setText("EQUIPO B");
-
-        lJugadorB.setFont(new java.awt.Font("Bookman Old Style", 1, 18)); // NOI18N
-        lJugadorB.setForeground(new java.awt.Color(0, 0, 0));
-        lJugadorB.setText("JUGADOR");
-
-        botonLanzarArgollaDos.setBackground(new java.awt.Color(132, 72, 62));
-        botonLanzarArgollaDos.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N
-        botonLanzarArgollaDos.setForeground(new java.awt.Color(255, 255, 51));
-        botonLanzarArgollaDos.setText("Lanzar Argolla");
-        botonLanzarArgollaDos.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        javax.swing.GroupLayout pFoto1Layout = new javax.swing.GroupLayout(pFoto1);
-        pFoto1.setLayout(pFoto1Layout);
-        pFoto1Layout.setHorizontalGroup(
-            pFoto1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        pFoto1Layout.setVerticalGroup(
-            pFoto1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout pEquipoBLayout = new javax.swing.GroupLayout(pEquipoB);
-        pEquipoB.setLayout(pEquipoBLayout);
-        pEquipoBLayout.setHorizontalGroup(
-            pEquipoBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lEquipoB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pEquipoBLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(botonLanzarArgollaDos, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(173, 173, 173))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pEquipoBLayout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(pFoto1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
-                .addComponent(lJugadorB)
-                .addGap(264, 264, 264))
-        );
-        pEquipoBLayout.setVerticalGroup(
-            pEquipoBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pEquipoBLayout.createSequentialGroup()
-                .addGap(57, 57, 57)
-                .addComponent(lEquipoB)
-                .addGap(28, 28, 28)
-                .addGroup(pEquipoBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lJugadorB)
-                    .addComponent(pFoto1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 369, Short.MAX_VALUE)
-                .addComponent(botonLanzarArgollaDos, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(54, 54, 54))
-        );
-
-        bg.add(pEquipoB, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 0, 600, 690));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel bg;
-    private javax.swing.JButton botonLanzarArgollaDos;
-    private javax.swing.JButton botonLanzarArgollaUno;
-    private javax.swing.JLabel lEquipoA;
-    private javax.swing.JLabel lEquipoB;
-    private javax.swing.JLabel lJugadorA;
-    private javax.swing.JLabel lJugadorB;
-    private javax.swing.JPanel pEquipoA;
-    private javax.swing.JPanel pEquipoB;
-    private javax.swing.JPanel pFoto;
-    private javax.swing.JPanel pFoto1;
-    // End of variables declaration//GEN-END:variables
-
 }

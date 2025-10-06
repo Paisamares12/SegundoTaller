@@ -9,7 +9,7 @@ package udistrital.avanzada.taller.modelo;
  * participantes y el estado de la partida.
  *
  * @author Paula Martínez
- * @version 4.0 30/09/2025
+ * @version 5.0 30/09/2025
  */
 public class Partida {
 
