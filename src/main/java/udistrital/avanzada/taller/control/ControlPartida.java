@@ -4,270 +4,170 @@
  */
 package udistrital.avanzada.taller.control;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import udistrital.avanzada.taller.modelo.Jugador;
+import java.util.Random;
+import udistrital.avanzada.taller.modelo.Equipo;
 
 /**
  * Creación de métodos para la creación de equipos y carga
+ * 
+ * Originalmente creada por Juan Estevan Ariza
+ * Modificada por Juan Sebastián Bravo Rojas
+ * 
  * 
  * @author Juan Ariza
  * @version 2.0 03/10/2025
  */
 public class ControlPartida {
-    private Map<String, List<Jugador>> equipos;
-    private ControlJugadores controlJugadores;
-    private static final int TAMANO_EQUIPO = 4;
-    private static final String RUTA_PROPERTIES = "equipos.properties";
-    
+    private List<Equipo> equipos;
+    private boolean partidaActiva;
+    private int puntajeObjetivo;
+    private int turnoActual; // Índice del equipo que lanza
+    private final Random random;
+
     /**
-     * Constructor de la clase ControlPartida.
-     * 
-     * @param controlJugadores Referencia al control de jugadores
+     * Constructor base de ControlPartida.
+     * No recibe datos externos, solo inicializa valores de control.
      */
-    public ControlPartida(ControlJugadores controlJugadores) {
-        this.equipos = new HashMap<>();
-        this.controlJugadores = controlJugadores;
+    public ControlPartida() {
+        this.partidaActiva = false;
+        this.puntajeObjetivo = 20; // Gana quien llegue a 20 puntos
+        this.turnoActual = 0;
+        this.random = new Random();
     }
-    
+
     /**
-     * Carga equipos desde un archivo properties utilizando los jugadores
-     * ya cargados en ControlJugadores.
+     * Asigna los equipos que participarán en la partida.
      * 
-     * El archivo debe tener el formato:
-     * equipoN.nombre=NombreEquipo
-     * equipoN.jugadorM.apodo=Apodo (debe existir en ControlJugadores)
-     * 
-     * @param rutaArchivo Ruta del archivo properties
-     * @return Número de equipos cargados exitosamente, -1 si hay error de lectura
+     * @param equipos lista de equipos cargados desde ControlPersistencia
      */
-    public int cargarEquiposDesdeProperties(String rutaArchivo) {
-        Properties props = new Properties();
-        int equiposCargados = 0;
-        
-        try (FileInputStream fis = new FileInputStream(rutaArchivo)) {
-            props.load(fis);
-            
-            int numEquipo = 1;
-            while (true) {
-                String nombreEquipo = props.getProperty("equipo" + numEquipo + ".nombre");
-                
-                if (nombreEquipo == null) {
-                    break;
-                }
-                
-                List<Jugador> jugadoresEquipo = new ArrayList<>();
-                int numJugador = 1;
-                
-                while (numJugador <= TAMANO_EQUIPO) {
-                    String prefijo = "equipo" + numEquipo + ".jugador" + numJugador;
-                    String apodo = props.getProperty(prefijo + ".apodo");
-                    
-                    if (apodo == null) {
-                        break;
-                    }
-                    
-                    Jugador jugador = buscarJugadorEnLista(apodo);
-                    if (jugador != null) {
-                        jugadoresEquipo.add(jugador);
-                    }
-                    
-                    numJugador++;
-                }
-                
-                if (!jugadoresEquipo.isEmpty()) {
-                    try {
-                        if (crearEquipo(nombreEquipo, jugadoresEquipo)) {
-                            equiposCargados++;
-                        }
-                    } catch (IllegalArgumentException e) {
-                    }
-                }
-                
-                numEquipo++;
-            }
-            
-        } catch (IOException e) {
-            return -1; // Indica error de lectura del archivo
+    public void setEquipos(List<Equipo> equipos) {
+        if (equipos == null || equipos.size() < 2) {
+            throw new IllegalArgumentException("Debe haber al menos dos equipos para iniciar la partida.");
         }
-        
-        return equiposCargados;
+        this.equipos = equipos;
+        this.partidaActiva = true;
+        this.turnoActual = 0;
+        reiniciarPuntajes();
     }
-    
+
     /**
-     * Carga equipos usando la ruta por defecto.
+     * Simula el lanzamiento de argolla del equipo en turno.
      * 
-     * @return Número de equipos cargados exitosamente, -1 si hay error
+     * @return descripción del resultado del lanzamiento
+     * @throws IllegalStateException si no hay partida activa
      */
-    public int cargarEquiposDesdeProperties() {
-        return cargarEquiposDesdeProperties(RUTA_PROPERTIES);
+    public String lanzarArgolla() {
+        if (!partidaActiva || equipos == null) {
+            throw new IllegalStateException("No hay una partida activa.");
+        }
+
+        Equipo equipo = equipos.get(turnoActual);
+
+        // Genera puntos aleatorios entre 0 y 5
+        int puntos = random.nextInt(6);
+        equipo.sumarPuntos(puntos);
+
+        String resultado = "El equipo " + equipo.getNombre()
+                + " lanzó la argolla y obtuvo " + puntos + " puntos.\n"
+                + "Puntaje total: " + equipo.getPuntaje();
+
+        // Verificar si ganó
+        if (equipo.getPuntaje() >= puntajeObjetivo) {
+            partidaActiva = false;
+            resultado += "\n¡" + equipo.getNombre() + " ha ganado la partida!";
+        } else {
+            pasarTurno();
+        }
+
+        return resultado;
     }
-    
+
     /**
-     * Busca un jugador en la lista de jugadores del ControlJugadores por su apodo.
-     * 
-     * @param apodo Apodo del jugador a buscar
-     * @return Jugador encontrado o null si no existe
+     * Cambia el turno al siguiente equipo.
      */
-    private Jugador buscarJugadorEnLista(String apodo) {
-        List<Jugador> todosLosJugadores = controlJugadores.obtenerJugadores();
-        for (Jugador jugador : todosLosJugadores) {
-            if (jugador.getApodo().equalsIgnoreCase(apodo)) {
-                return jugador;
+    private void pasarTurno() {
+        if (equipos != null && !equipos.isEmpty()) {
+            turnoActual = (turnoActual + 1) % equipos.size();
+        }
+    }
+
+    /**
+     * Reinicia los puntajes de todos los equipos.
+     */
+    public void reiniciarPuntajes() {
+        if (equipos != null) {
+            for (Equipo e : equipos) {
+                e.reiniciarPuntaje();
+            }
+        }
+    }
+    /**
+     * Reinicia completamente la partida:
+     * - Restablece los puntajes.
+     * - Activa nuevamente la partida.
+     * - Resetea el turno al primer equipo.
+     */
+    public void reiniciar() {
+        reiniciarPuntajes();
+        this.partidaActiva = true;
+        this.turnoActual = 0;
+    }
+
+    /**
+     * Indica si la partida sigue activa.
+     * 
+     * @return true si no hay ganador aún
+     */
+    public boolean isPartidaActiva() {
+        return partidaActiva;
+    }
+
+    /**
+     * Devuelve el equipo ganador, si ya terminó la partida.
+     * 
+     * @return equipo ganador o null si aún no hay ganador
+     */
+    public Equipo getGanador() {
+        if (equipos == null) return null;
+        for (Equipo e : equipos) {
+            if (e.getPuntaje() >= puntajeObjetivo) {
+                return e;
             }
         }
         return null;
     }
-    
+
     /**
-     * Crea un nuevo equipo con jugadores nuevos que se crean en el momento.
+     * Cambia el puntaje necesario para ganar.
      * 
-     * @param nombreEquipo Nombre del equipo
-     * @param datosJugadores Lista de arreglos con datos de jugadores [nombre, apodo, foto]
-     * @return true si el equipo se creó correctamente
-     * @throws IllegalArgumentException si el equipo ya existe o datos inválidos
+     * @param nuevoObjetivo nuevo puntaje objetivo
      */
-    public boolean crearEquipoConJugadoresNuevos(String nombreEquipo, List<String[]> datosJugadores) {
-        if (nombreEquipo == null || nombreEquipo.trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre del equipo no puede estar vacío");
+    public void setPuntajeObjetivo(int nuevoObjetivo) {
+        if (nuevoObjetivo <= 0) {
+            throw new IllegalArgumentException("El puntaje objetivo debe ser positivo.");
         }
-        
-        if (equipos.containsKey(nombreEquipo)) {
-            throw new IllegalArgumentException("Ya existe un equipo con el nombre: " + nombreEquipo);
-        }
-        
-        if (datosJugadores == null || datosJugadores.isEmpty()) {
-            throw new IllegalArgumentException("Debe proporcionar datos de al menos un jugador");
-        }
-        
-        List<Jugador> jugadoresEquipo = new ArrayList<>();
-        
-        for (String[] datos : datosJugadores) {
-            if (datos.length < 2) {
-                throw new IllegalArgumentException("Datos incompletos para un jugador");
-            }
-            
-            String nombre = datos[0];
-            String apodo = datos[1];
-            String foto = datos.length > 2 ? datos[2] : "default.jpg";
-            
-            try {
-                if (controlJugadores.crearJugador(nombre, apodo, foto)) {
-                    Jugador jugador = buscarJugadorEnLista(apodo);
-                    if (jugador != null) {
-                        jugadoresEquipo.add(jugador);
-                    }
-                }
-            } catch (IllegalArgumentException e) {
-                Jugador jugadorExistente = buscarJugadorEnLista(apodo);
-                if (jugadorExistente != null) {
-                    jugadoresEquipo.add(jugadorExistente);
-                } else {
-                    throw new IllegalArgumentException("Error al crear/agregar jugador '" + apodo + "': " + e.getMessage());
-                }
-            }
-        }
-        
-        if (jugadoresEquipo.isEmpty()) {
-            throw new IllegalArgumentException("No se pudo crear ningún jugador para el equipo");
-        }
-        
-        equipos.put(nombreEquipo, jugadoresEquipo);
-        return true;
+        this.puntajeObjetivo = nuevoObjetivo;
     }
-    
+
     /**
-     * Crea un nuevo equipo con jugadores ya existentes en el sistema.
+     * Retorna el puntaje objetivo actual.
      * 
-     * @param nombreEquipo Nombre del equipo
-     * @param jugadoresEquipo Lista de jugadores del equipo
-     * @return true si el equipo se creó correctamente
-     * @throws IllegalArgumentException si el equipo ya existe o datos inválidos
+     * @return puntaje objetivo
      */
-    public boolean crearEquipo(String nombreEquipo, List<Jugador> jugadoresEquipo) {
-        if (nombreEquipo == null || nombreEquipo.trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre del equipo no puede estar vacío");
+    public int getPuntajeObjetivo() {
+        return puntajeObjetivo;
+    }
+
+    /**
+     * Devuelve el equipo que tiene el turno actual.
+     * 
+     * @return equipo en turno
+     */
+    public Equipo getEquipoEnTurno() {
+        if (equipos == null || equipos.isEmpty()) {
+            return null;
         }
-        
-        if (equipos.containsKey(nombreEquipo)) {
-            throw new IllegalArgumentException("Ya existe un equipo con el nombre: " + nombreEquipo);
-        }
-        
-        if (jugadoresEquipo == null || jugadoresEquipo.isEmpty()) {
-            throw new IllegalArgumentException("El equipo debe tener al menos cuatro jugadores");
-        }
-        
-        equipos.put(nombreEquipo, new ArrayList<>(jugadoresEquipo));
-        return true;
-    }
-    
-    /**
-     * Obtiene los jugadores de un equipo específico.
-     * 
-     * @param nombreEquipo Nombre del equipo
-     * @return Lista de jugadores del equipo o null si no existe
-     */
-    public List<Jugador> obtenerJugadoresEquipo(String nombreEquipo) {
-        return equipos.get(nombreEquipo);
-    }
-    
-    /**
-     * Obtiene todos los nombres de equipos registrados.
-     * 
-     * @return Lista con los nombres de los equipos
-     */
-    public List<String> obtenerNombresEquipos() {
-        return new ArrayList<>(equipos.keySet());
-    }
-    
-    /**
-     * Obtiene la cantidad de equipos registrados.
-     * 
-     * @return Número de equipos
-     */
-    public int obtenerCantidadEquipos() {
-        return equipos.size();
-    }
-    
-    /**
-     * Verifica si un equipo está completo (tiene 4 jugadores).
-     * 
-     * @param nombreEquipo Nombre del equipo
-     * @return true si el equipo tiene 4 jugadores, false en caso contrario
-     */
-    public boolean equipoCompleto(String nombreEquipo) {
-        List<Jugador> jugadoresEquipo = equipos.get(nombreEquipo);
-        return jugadoresEquipo != null && jugadoresEquipo.size() == TAMANO_EQUIPO;
-    }
-    
-    /**
-     * Verifica si existe un equipo con el nombre dado.
-     * 
-     * @param nombreEquipo Nombre del equipo
-     * @return true si el equipo existe, false en caso contrario
-     */
-    public boolean existeEquipo(String nombreEquipo) {
-        return equipos.containsKey(nombreEquipo);
-    }
-    
-    /**
-     * Obtiene el mapa completo de equipos.
-     * 
-     * @return Mapa de equipos (nombre -> lista de jugadores)
-     */
-    public Map<String, List<Jugador>> obtenerEquipos() {
-        return new HashMap<>(equipos);
-    }
-    
-    /**
-     * Limpia todos los equipos del sistema.
-     */
-    public void limpiarEquipos() {
-        equipos.clear();
+        return equipos.get(turnoActual);
     }
 }

@@ -8,15 +8,18 @@ package udistrital.avanzada.taller.modelo;
  * Clase que representa a un jugador, extiende de Persona.
  * Cada jugador tiene un apodo y puede estar asociado a un equipo.
  *
+ * Originalmente creada por Paula Martínez
+ * Modificada por Juan Sebastián Bravo Rojas
+ * 
  * @author Paula Martínez
- * @version 1.0
- * 30/09/2025
+ * @version 4.0
+ * 06/10/2025
  */
 public class Jugador extends Persona {
     
     //Atributos
-    private String Apodo;
-    private String foto; //Todavia no estoy segura de como implementar esto jeje
+    private String apodo;
+    private String rutaFoto;
 
     /**
      *  Construye un nuevo jugador con los datos especificados.
@@ -24,11 +27,11 @@ public class Jugador extends Persona {
      * @param foto
      * @param nombre 
      */
-    public Jugador(String Apodo, String foto, String nombre) {
-        super(nombre);
-        this.Apodo = Apodo;
-        this.foto = foto;
-    }
+    public Jugador(String nombre, String rutaFoto, String apodo) {
+    super(nombre == null || nombre.isBlank() ? "Sin nombre" : nombre);
+    this.apodo = (apodo != null) ? apodo : "";
+    this.rutaFoto = (rutaFoto != null) ? rutaFoto : "";
+}
     
     /**
      * Obtiene el apodo del jugador.
@@ -36,7 +39,7 @@ public class Jugador extends Persona {
      * @return nombre del jugador
      */
     public String getApodo() {
-        return Apodo;
+        return apodo;
     }
     
     /**
@@ -45,7 +48,7 @@ public class Jugador extends Persona {
      * @param Apodo nuevo apodo
      */
     public void setApodo(String Apodo) {
-        this.Apodo = Apodo;
+        this.apodo = Apodo;
     }
     
     /**
@@ -53,8 +56,8 @@ public class Jugador extends Persona {
      *
      * @return ruta de la foto 
      */
-    public String getFoto() {
-        return foto;
+    public String getRutaFoto() {
+        return rutaFoto;
     }
 
     /**
@@ -62,8 +65,8 @@ public class Jugador extends Persona {
      * 
      * @param foto nueva foto
      */
-    public void setFoto(String foto) {
-        this.foto = foto;
+    public void setRutaFoto(String foto) {
+        this.rutaFoto = foto;
     }
     
     

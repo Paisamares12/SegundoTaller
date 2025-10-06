@@ -1,97 +1,145 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package udistrital.avanzada.taller.vista;
 
-//Importacion de librerias
-import java.io.File;
+import java.awt.Font;
+import java.util.List;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-//Importacion de la clase ControlInterfaz
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.WindowConstants;
 import udistrital.avanzada.taller.control.ControlInterfaz;
+import udistrital.avanzada.taller.modelo.Equipo;
 
 /**
- *
- * @author Paula Martínez
- * @version 1.0 1/10/2025 La clase VentanaPrincipal.java ha sido creada con el
- fin de mostrar el juego
- **/
+ * Ventana principal del juego Argolla Llanera.
+ * 
+ * Muestra los equipos, permite realizar lanzamientos y ver los resultados.
+ * 
+ * Esta clase pertenece a la capa de vista (no contiene lógica de juego).
+ * 
+ * @author Juan Sebastián Bravo Rojas
+ * @version 4.0 - 06/10/2025
+ */
 public class VentanaPrincipal extends javax.swing.JFrame {
-    
-    //Atributos para la carga de archivos y la inyeccion del control
-    private ControlInterfaz cInterfaz;
-    private JFileChooser fc;
-    
+
+    private final ControlInterfaz control;
+    private final List<Equipo> equipos;
+
+    // Componentes visuales
+    private JTextArea areaResultados;
+    private JLabel labelEquipoUno;
+    private JLabel labelEquipoDos;
+
     /**
-     * Creates new form VentanaPrincipal
-     */
-    public VentanaPrincipal(ControlInterfaz cInterfaz) {
-        initComponents();
-        //La ventana queda centrada
-        this.setLocationRelativeTo(null);
-        //No se puede cambiar el tamaño de la ventana
-        this.setResizable(false);
-        //Inyeccion del control
-        this.cInterfaz = cInterfaz;
-    }
-    /**
-     * Se le genera un get al label lEquipoA para ser accedido desde ControlInterfaz
+     * Constructor que recibe el controlador y la lista de equipos cargados.
      * 
-     * @return lEquipoA
+     * @param control referencia al controlador de interfaz
+     * @param equipos lista de equipos cargados desde ControlPersistencia
      */
-    public JLabel getlEquipoA(){
-        return lEquipoA;
-    }
-    /**
-     * Se le genera un get al label lEquipoB para ser accedido desde ControlInterfaz
-     * 
-     * @return lEquipoB
-     */
-    public JLabel getlEquipoB(){
-        return lEquipoB;
-    }
-    /**
-     * Se le genera un get al label VentanaPrincipal para ser accedido desde ControlInterfaz
-     * 
-     * @return VentanaPrincipal
-     */
-    public JLabel getlJugadorA(){
-        return lJugadorA;
-    }
-    /**
-     * Se le genera un get al label lJugadorB para ser accedido desde ControlInterfaz
-     * 
-     * @return lEquipoB
-     */
-    public JLabel getlJugadoroB(){
-        return lJugadorB;
-    }
-    /**
-     * Se le genera un get al botonLanzarArgollaUno para ser accedido desde ControlInterfaz
-     * 
-     * @return botonLanzarArgollaUno
-     */
-    public JButton getBotonLanzarArgollaUno(){
-        return botonLanzarArgollaUno;
-    }
-    /**
-     * Se le genera un get al botonLanzarArgollaDos para ser accedido desde ControlInterfaz
-     * 
-     * @return botonLanzarArgollaDos
-     */
-    public JButton getBotonLanzarArgollaDos(){
-        return botonLanzarArgollaDos;
-    }
-    
-    
-    public File getFile(){
-        fc = new JFileChooser(System.getProperty("user.dir"));
-        fc.showOpenDialog(fc);
-        return fc.getSelectedFile();
+    public VentanaPrincipal(ControlInterfaz control, List<Equipo> equipos) {
+        this.control = control;
+        this.equipos = equipos;
+
+        inicializarComponentes();
+        configurarVentana();
     }
 
+    /**
+     * Configura propiedades generales de la ventana.
+     */
+    private void configurarVentana() {
+        setTitle("Argolla Llanera - Ventana Principal");
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setVisible(false);
+    }
+
+    /**
+     * Inicializa todos los componentes visuales.
+     */
+    private void inicializarComponentes() {
+        JPanel panelPrincipal = new JPanel();
+        panelPrincipal.setLayout(null);
+
+        labelEquipoUno = new JLabel();
+        labelEquipoDos = new JLabel();
+        botonLanzarArgollaUno = new JButton("Lanzar Argolla - Equipo 1");
+        botonLanzarArgollaDos = new JButton("Lanzar Argolla - Equipo 2");
+        areaResultados = new JTextArea();
+        JScrollPane scrollResultados = new JScrollPane(areaResultados);
+
+        labelEquipoUno.setFont(new Font("Monospaced", Font.BOLD, 20));
+        labelEquipoDos.setFont(new Font("Monospaced", Font.BOLD, 20));
+
+        botonLanzarArgollaUno.setFont(new Font("Monospaced", Font.PLAIN, 16));
+        botonLanzarArgollaDos.setFont(new Font("Monospaced", Font.PLAIN, 16));
+        
+        areaResultados.setEditable(false);
+        areaResultados.setFont(new Font("Monospaced", Font.PLAIN, 14));
+
+        // Mostrar los nombres de los equipos
+        if (equipos != null && equipos.size() >= 2) {
+            labelEquipoUno.setText("Equipo 1: " + equipos.get(0).getNombre());
+            labelEquipoDos.setText("Equipo 2: " + equipos.get(1).getNombre());
+        } else {
+            labelEquipoUno.setText("Equipo 1: ---");
+            labelEquipoDos.setText("Equipo 2: ---");
+        }
+
+        // Posiciones
+        labelEquipoUno.setBounds(50, 30, 400, 30);
+        labelEquipoDos.setBounds(50, 70, 400, 30);
+        botonLanzarArgollaUno.setBounds(500, 30, 250, 40);
+        botonLanzarArgollaDos.setBounds(500, 80, 250, 40);
+        scrollResultados.setBounds(50, 150, 700, 300);
+
+        panelPrincipal.add(labelEquipoUno);
+        panelPrincipal.add(labelEquipoDos);
+        panelPrincipal.add(botonLanzarArgollaUno);
+        panelPrincipal.add(botonLanzarArgollaDos);
+        panelPrincipal.add(scrollResultados);
+
+        getContentPane().add(panelPrincipal);
+        setSize(820, 550);
+    }
+
+    /**
+     * Actualiza el área de resultados con el texto más reciente.
+     * 
+     * @param texto texto a mostrar en la zona de resultados
+     */
+    public void actualizarResultado(String texto) {
+        areaResultados.append(texto + "\n\n");
+    }
+
+    /**
+     * Muestra un mensaje emergente (JOptionPane).
+     * 
+     * @param msg mensaje a mostrar
+     */
+    public void mostrarMensaje(String msg) {
+        JOptionPane.showMessageDialog(this, msg);
+    }
+
+    // Getters para acceder desde ControlInterfaz
+    public JButton getBotonLanzarArgollaUno() {
+        return botonLanzarArgollaUno;
+    }
+
+    public JButton getBotonLanzarArgollaDos() {
+        return botonLanzarArgollaDos;
+    }
+
+    public JTextArea getAreaResultados() {
+        return areaResultados;
+    }
+
+    public List<Equipo> getEquipos() {
+        return equipos;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -265,4 +313,5 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel pFoto;
     private javax.swing.JPanel pFoto1;
     // End of variables declaration//GEN-END:variables
+
 }

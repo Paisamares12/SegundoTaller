@@ -5,12 +5,15 @@
 package udistrital.avanzada.taller.vista;
 
 //Se importan las librerias
+import java.io.File;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Paula Martínez
- * @version 1.0
+ * @version 4.0
  * 30/09/2025 
  * La clase Inicio.java ha sido creada con el fin de
  * mostrar la ventana inicial del programa
@@ -36,6 +39,25 @@ public class Inicio extends javax.swing.JFrame {
         pTitulo.add(tImagen).repaint(); //pTitulo PanelTitulo
         
     }
+    
+    public File obtenerArchivoEquipos() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle("Seleccionar archivo de equipos");
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            return chooser.getSelectedFile();
+        }
+        return null;
+    }
+
+    public void mostrarMensaje(String msg) {
+        JOptionPane.showMessageDialog(this, msg);
+    }
+
+    public void cerrarVentana() {
+        this.dispose();
+        System.exit(0);
+    }
+
     
     /**
      * Se le genera un get al botonSalir para ser accedido desde otras clases
