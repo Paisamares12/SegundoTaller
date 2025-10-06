@@ -1,69 +1,94 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package udistrital.avanzada.taller.control;
 
-//Importamos librerias
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-//Importamos clases necesarias desde otros paquetes
+import java.io.IOException;
+import java.util.List;
+import udistrital.avanzada.taller.modelo.Equipo;
 import udistrital.avanzada.taller.vista.Inicio;
 import udistrital.avanzada.taller.vista.VentanaPrincipal;
 
 /**
+ * Clase encargada de administrar la interfaz.
+ * Cumple el principio de responsabilidad única (SRP):
+ * solo gestiona la lógica de la vista.
  *
- * @author Paula Martínez
- * @version 1.0 30/09/2025 La clase ControlInterfaz.java ha sido creada con el
- * fin de manejar toda la interfaz del programa
+ * Originalmente creada por Paula Martínez
+ * Modificada por Juan Sebastián Bravo Rojas
+ * 
+ * 
+ * @author Paula Martinez
+ * @version 4.0
+ * 06/10/2025
  */
 public class ControlInterfaz implements ActionListener {
 
-    //Inyectamos ControlLogica
-    private ControlLogica cLogica;
-    //Creamos Atributos de las clases
-    private Inicio inicio;
-    private VentanaPrincipal vPrincipal;
+    private final ControlLogica cLogica;
+    private final Inicio inicio;
+    private VentanaPrincipal vPrincipal; // se crea después de cargar equipos
 
     public ControlInterfaz(ControlLogica cLogica) {
-        //Inyección
         this.cLogica = cLogica;
-        
-        //Instanciacion
         this.inicio = new Inicio();
-        this.vPrincipal = new VentanaPrincipal(this);
-        
-        //Iniciamos la ventana principal 
+
+        // Mostrar la ventana de inicio
         this.inicio.setVisible(true);
 
-        //Añadir el ActionListener a todos los botones usados
+        // Listeners
         this.inicio.getBotonSalir().addActionListener(this);
         this.inicio.getBotonJugar().addActionListener(this);
-        this.vPrincipal.getBotonLanzarArgollaUno().addActionListener(this);
-        this.vPrincipal.getBotonLanzarArgollaDos().addActionListener(this);
-    }
-    /**
-     * Recibir el archivo desde la interfaz y despues pasarlo a ControlLogica
-     * @return archivo obtenido desde el JFileChooser
-     */
-    public File darArchivo(){
-        return this.vPrincipal.getFile();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //Al tocar el boton salir se sale del programa jaja
-        if (e.getSource() == this.inicio.getBotonSalir()) {
-            this.inicio.setVisible(false);
+
+        // Botón Salir
+        if (e.getSource() == inicio.getBotonSalir()) {
+            inicio.dispose();
             System.exit(0);
         }
-        //Al tocar el boton jugar se pasa a la ventana principal
-        if (e.getSource() == this.inicio.getBotonJugar()) {
-            this.vPrincipal.setVisible(true);
-            this.inicio.setVisible(false);
+
+        // Botón Jugar: cargar equipos y abrir ventana principal
+        if (e.getSource() == inicio.getBotonJugar()) {
+            File archivo = inicio.obtenerArchivoEquipos(); // o donde sea que obtengas el archivo
+            try {
+                cLogica.cargarEquipos(archivo);
+                List<Equipo> equipos = cLogica.getEquipos();
+
+                // ahora sí puedes crear la ventana principal
+                vPrincipal = new VentanaPrincipal(this, equipos);
+                inicio.dispose();
+                vPrincipal.setVisible(true);
+
+                // listeners de la ventana principal
+                vPrincipal.getBotonLanzarArgollaUno().addActionListener(this);
+                vPrincipal.getBotonLanzarArgollaDos().addActionListener(this);
+            } catch (IllegalArgumentException ex) {
+                inicio.mostrarMensaje(ex.getMessage());
+            }
         }
 
+        // Lanzar argolla (desde ventana principal)
+        if (vPrincipal != null && 
+           (e.getSource() == vPrincipal.getBotonLanzarArgollaUno() || 
+            e.getSource() == vPrincipal.getBotonLanzarArgollaDos())) {
+            ejecutarLanzamiento();
+        }
     }
 
+    private void ejecutarLanzamiento() {
+        try {
+            String resultado = cLogica.lanzarArgolla();
+            vPrincipal.actualizarResultado(resultado);
+
+            if (!cLogica.partidaActiva()) {
+                String ganador = cLogica.getGanador();
+                vPrincipal.mostrarMensaje("¡Partida terminada! Ganador: " + ganador);
+            }
+        } catch (IllegalStateException ex) {
+            vPrincipal.mostrarMensaje(ex.getMessage());
+        }
+    }
 }
+
