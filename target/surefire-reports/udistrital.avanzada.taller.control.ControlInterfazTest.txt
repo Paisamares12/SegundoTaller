@@ -1,0 +1,45 @@
+-------------------------------------------------------------------------------
+Test set: udistrital.avanzada.taller.control.ControlInterfazTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.600 s <<< FAILURE! -- in udistrital.avanzada.taller.control.ControlInterfazTest
+udistrital.avanzada.taller.control.ControlInterfazTest.testGetRondaActual -- Time elapsed: 0.283 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: La ronda inicial debe ser 0 ==> expected: <0> but was: <1>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:150)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:563)
+	at udistrital.avanzada.taller.control.ControlInterfazTest.testGetRondaActual(ControlInterfazTest.java:82)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+udistrital.avanzada.taller.control.ControlInterfazTest.testEjecutarLanzamientoSinPartida -- Time elapsed: 0.165 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <java.lang.IllegalStateException> but was: <java.lang.NullPointerException>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3115)
+	at udistrital.avanzada.taller.control.ControlInterfazTest.testEjecutarLanzamientoSinPartida(ControlInterfazTest.java:67)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+Caused by: java.lang.NullPointerException: Cannot invoke "udistrital.avanzada.taller.vista.VentanaPrincipal.getAreaResultados()" because "this.vPrincipal" is null
+	at udistrital.avanzada.taller.control.ControlInterfaz.limpiarResultados(ControlInterfaz.java:304)
+	at udistrital.avanzada.taller.control.ControlInterfazTest.lambda$testEjecutarLanzamientoSinPartida$0(ControlInterfazTest.java:68)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
+	... 6 more
+
+udistrital.avanzada.taller.control.ControlInterfazTest.testInicializacion -- Time elapsed: 0.107 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <0> but was: <1>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:150)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:145)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:531)
+	at udistrital.avanzada.taller.control.ControlInterfazTest.testInicializacion(ControlInterfazTest.java:57)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+

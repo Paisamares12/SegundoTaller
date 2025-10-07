@@ -1,0 +1,25 @@
+--no-fonts
+-classpath
+'C:/Users/paisa/.m2/repository/org/netbeans/external/AbsoluteLayout/RELEASE250/AbsoluteLayout-RELEASE250.jar'
+-encoding
+'UTF-8'
+-protected
+--release
+24
+-sourcepath
+'C:/Users/paisa/OneDrive/Desktop/Cosas Importantes Paula/Programación Avanzada/ArgollaLlanera/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2025. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/paisa/OneDrive/Desktop/Cosas Importantes Paula/Programación Avanzada/ArgollaLlanera/target/reports/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'ArgollaLlanera 1.0-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'ArgollaLlanera 1.0-SNAPSHOT API'

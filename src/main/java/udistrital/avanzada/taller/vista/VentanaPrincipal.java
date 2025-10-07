@@ -28,6 +28,7 @@ public class VentanaPrincipal extends JFrame {
     private final List<Equipo> equipos;
 
     // Componentes visuales
+    private JPanel panelPrincipal;
     private JTextArea areaResultados;
     private JLabel labelEquipoUno;
     private JLabel labelEquipoDos;
@@ -61,7 +62,7 @@ public class VentanaPrincipal extends JFrame {
 
     private void inicializarComponentes() {
         // Panel principal con BorderLayout
-        JPanel panelPrincipal = new JPanel(new BorderLayout(10, 10));
+        panelPrincipal = new JPanel(new BorderLayout(10, 10));
         panelPrincipal.setBackground(new Color(245, 245, 220));
 
         // Panel superior - Información de ronda

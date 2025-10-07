@@ -1,0 +1,37 @@
+-------------------------------------------------------------------------------
+Test set: udistrital.avanzada.taller.control.ControlLogicaTest
+-------------------------------------------------------------------------------
+Tests run: 8, Failures: 2, Errors: 1, Skipped: 0, Time elapsed: 0.929 s <<< FAILURE! -- in udistrital.avanzada.taller.control.ControlLogicaTest
+udistrital.avanzada.taller.control.ControlLogicaTest.testGetRondaActual -- Time elapsed: 0.345 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: La ronda inicial debe ser 0 ==> expected: <0> but was: <1>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:150)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:563)
+	at udistrital.avanzada.taller.control.ControlLogicaTest.testGetRondaActual(ControlLogicaTest.java:118)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+udistrital.avanzada.taller.control.ControlLogicaTest.testCrearNuevoEquipoValido -- Time elapsed: 0.060 s <<< ERROR!
+java.lang.IllegalArgumentException: El jugador Pedro no está disponible.
+	at udistrital.avanzada.taller.control.ControlEquipos.crearEquipo(ControlEquipos.java:75)
+	at udistrital.avanzada.taller.control.ControlLogica.crearNuevoEquipo(ControlLogica.java:216)
+	at udistrital.avanzada.taller.control.ControlLogicaTest.testCrearNuevoEquipoValido(ControlLogicaTest.java:63)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+udistrital.avanzada.taller.control.ControlLogicaTest.testAvanzarRonda -- Time elapsed: 0.057 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Al iniciar no debería permitir avanzar si no hay partida activa ==> expected: <false> but was: <true>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertFalse.failNotFalse(AssertFalse.java:63)
+	at org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:36)
+	at org.junit.jupiter.api.Assertions.assertFalse(Assertions.java:239)
+	at udistrital.avanzada.taller.control.ControlLogicaTest.testAvanzarRonda(ControlLogicaTest.java:109)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
