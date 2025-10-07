@@ -15,12 +15,13 @@ import udistrital.avanzada.taller.vista.VentanaResultados;
 /**
  * Clase encargada de administrar la interfaz y coordinar las vistas.
  * Cumple el principio de responsabilidad única (SRP).
+ * Nuevas funcionalidades para mostrar las manos y jugadores en cada lanzamiento
  * 
  * Creada por: Paula Martinez
  * Modificada por: Sebastián Bravo y Juan Ariza
  *
  * @author Paula Martinez   
- * @version 5.0
+ * @version 7.0
  * 06/10/2025
  */
 public class ControlInterfaz implements ActionListener {
@@ -135,7 +136,7 @@ public class ControlInterfaz implements ActionListener {
                 gestorResultados.guardarResultado(equipo, resultado, rondaActual);
             }
         } catch (IOException ex) {
-            System.err.println("Error al guardar resultados: " + ex.getMessage());
+            vPrincipal.mostrarMensaje("Error al guardar resultados: " + ex.getMessage());
         }
         
         // Mostrar ventana de resultados
@@ -231,9 +232,9 @@ public class ControlInterfaz implements ActionListener {
             }
             
             StringBuilder sb = new StringBuilder();
-            sb.append("═══════════════════════════════════════════\n");
+            sb.append("╔═══════════════════════════════════════════════════════╗\n");
             sb.append("     RESULTADOS FINALES DE TODAS LAS RONDAS\n");
-            sb.append("═══════════════════════════════════════════\n\n");
+            sb.append("╚═══════════════════════════════════════════════════════╝\n\n");
             
             for (String res : resultados) {
                 sb.append(res).append("\n");
@@ -246,7 +247,7 @@ public class ControlInterfaz implements ActionListener {
                 JOptionPane.INFORMATION_MESSAGE
             );
         } catch (IOException ex) {
-            System.err.println("Error al mostrar resultados finales: " + ex.getMessage());
+            vPrincipal.mostrarMensaje("Error al mostrar resultados finales: " + ex.getMessage());
         }
     }
     

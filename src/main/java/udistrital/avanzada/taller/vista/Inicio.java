@@ -41,7 +41,7 @@ public class Inicio extends javax.swing.JFrame {
     }
     
     public File obtenerArchivoEquipos() {
-        JFileChooser chooser = new JFileChooser();
+        JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
         chooser.setDialogTitle("Seleccionar archivo de equipos");
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             return chooser.getSelectedFile();

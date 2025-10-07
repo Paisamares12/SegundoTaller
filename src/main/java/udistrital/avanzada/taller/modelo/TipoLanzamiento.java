@@ -9,7 +9,7 @@ package udistrital.avanzada.taller.modelo;
  * en el juego de Argolla Llanera y sus respectivos puntajes.
  *
  * @author Juan Ariza
- * @version 5.0
+ * @version 7.0
  * 06/10/2025
  */
 public enum TipoLanzamiento {

@@ -5,25 +5,27 @@
 package udistrital.avanzada.taller.control;
 
 import java.io.File;
-import udistrital.avanzada.taller.modelo.Equipo;
 import java.util.List;
+import udistrital.avanzada.taller.modelo.Equipo;
+import udistrital.avanzada.taller.modelo.Jugador;
 import udistrital.avanzada.taller.modelo.persistencia.ControlPersistencia;
 
 /**
  * Clase que maneja toda la lógica del aplicativo, conecta modelo con control.
+ * Relación con ControlEquipo para la creación de equipos en la lógica del programa y cargarlos correctamente
  * 
  * Originalmente creada por Paula Martínez
  * Modificada por Juan Sebastián Bravo Rojas y Juan Ariza
  * 
- * 
  * @author Paula Martínez
- * @version 4.0 06/10/2025 
+ * @version 5.0 06/10/2025 
  */
 public class ControlLogica {
 
     private ControlInterfaz cInterfaz;
     private ControlPartida cPartida;
     private ControlPersistencia cPersistencia;
+    private ControlEquipos cEquipos;
     private List<Equipo> equipos;
 
     /**
@@ -33,16 +35,27 @@ public class ControlLogica {
         this.cInterfaz = new ControlInterfaz(this);
         this.cPersistencia = new ControlPersistencia();
         this.cPartida = new ControlPartida();
+        this.cEquipos = new ControlEquipos();
     }
     
     /**
-     * Carga los equipos desde un archivo .properties
+     * Carga los equipos y jugadores disponibles desde un archivo .properties
      * @param archivo archivo seleccionado por el usuario
      * @return lista de equipos cargados
      */
     public List<Equipo> cargarEquipos(File archivo) {
         this.equipos = cPersistencia.cargarEquiposDesdeArchivo(archivo);
+        
+        // Cargar también los jugadores disponibles
+        List<Jugador> jugadoresDisponibles = cPersistencia.getJugadoresDisponibles();
+        
+        // Configurar el controlador de equipos
+        cEquipos.setEquipos(equipos);
+        cEquipos.setJugadoresDisponibles(jugadoresDisponibles);
+        
+        // Configurar la partida con los equipos cargados
         cPartida.setEquipos(equipos);
+        
         return equipos;
     }
     
@@ -51,6 +64,13 @@ public class ControlLogica {
      */
     public ControlPartida getControlPartida() {
         return cPartida;
+    }
+    
+    /**
+     * Devuelve el controlador de equipos.
+     */
+    public ControlEquipos getControlEquipos() {
+        return cEquipos;
     }
 
     /**
@@ -128,5 +148,25 @@ public class ControlLogica {
      */
     public boolean puedeJugarOtraRonda() {
         return cPartida.puedeJugarOtraRonda();
+    }
+    
+    /**
+     * Crea un nuevo equipo con jugadores disponibles.
+     * 
+     * @param nombreEquipo nombre del nuevo equipo
+     * @param jugadores lista de 4 jugadores para el equipo
+     * @return el equipo creado
+     */
+    public Equipo crearNuevoEquipo(String nombreEquipo, List<Jugador> jugadores) {
+        return cEquipos.crearEquipo(nombreEquipo, jugadores);
+    }
+    
+    /**
+     * Obtiene los jugadores disponibles para crear equipos.
+     * 
+     * @return lista de jugadores disponibles
+     */
+    public List<Jugador> getJugadoresDisponibles() {
+        return cEquipos.getJugadoresDisponibles();
     }
 }

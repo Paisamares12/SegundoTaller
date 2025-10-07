@@ -9,7 +9,7 @@ package udistrital.avanzada.taller.modelo;
  * Almacena el resultado del lanzamiento y los puntos obtenidos.
  *
  * @author Paula Martínez
- * @version 5.0
+ * @version 7.0
  * 30/09/2025
  */
 public class Lanzamiento {
