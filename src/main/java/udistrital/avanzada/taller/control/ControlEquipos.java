@@ -13,6 +13,9 @@ import udistrital.avanzada.taller.modelo.Jugador;
  * Clase creada para la creación y ajuste de equipos
  * Creación de métodos para crear equipos con los jugadores disponibles en el archivo de propiedades
  * 
+ * Originalmente creada por Juan Ariza
+ * Modificada por Juan Sebastián Bravo Rojas
+ * 
  * @author Juan Ariza
  * @version 7.0
  * 06/10/2025
@@ -73,16 +76,12 @@ public class ControlEquipos {
             }
         }
         
-        // Crear el equipo
-        ArrayList<Jugador> listaJugadores = new ArrayList<>(jugadores);
-        Equipo nuevoEquipo = new Equipo(nombreEquipo, listaJugadores);
-        
-        // Agregar jugadores al equipo
-        for (Jugador j : jugadores) {
-            nuevoEquipo.agregarJugador(j);
-            jugadoresDisponibles.remove(j); // Remover de disponibles
-        }
-        
+        // Crear el equipo (sin duplicar los jugadores)
+        Equipo nuevoEquipo = new Equipo(nombreEquipo, new ArrayList<>(jugadores));
+
+        // Remover los jugadores de la lista de disponibles
+        jugadoresDisponibles.removeAll(jugadores);
+
         equipos.add(nuevoEquipo);
         return nuevoEquipo;
     }
