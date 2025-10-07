@@ -1,20 +1,20 @@
-C:\Users\Pc\Documents\NetBeansProjects\SegundoTaller\src\main\java\udistrital\avanzada\taller\control\ControlEquipos.java
-C:\Users\Pc\Documents\NetBeansProjects\SegundoTaller\src\main\java\udistrital\avanzada\taller\control\ControlInterfaz.java
-C:\Users\Pc\Documents\NetBeansProjects\SegundoTaller\src\main\java\udistrital\avanzada\taller\control\ControlJugadores.java
-C:\Users\Pc\Documents\NetBeansProjects\SegundoTaller\src\main\java\udistrital\avanzada\taller\control\ControlLogica.java
-C:\Users\Pc\Documents\NetBeansProjects\SegundoTaller\src\main\java\udistrital\avanzada\taller\control\ControlPartida.java
-C:\Users\Pc\Documents\NetBeansProjects\SegundoTaller\src\main\java\udistrital\avanzada\taller\control\Launcher.java
-C:\Users\Pc\Documents\NetBeansProjects\SegundoTaller\src\main\java\udistrital\avanzada\taller\modelo\Conexion.java
-C:\Users\Pc\Documents\NetBeansProjects\SegundoTaller\src\main\java\udistrital\avanzada\taller\modelo\Equipo.java
-C:\Users\Pc\Documents\NetBeansProjects\SegundoTaller\src\main\java\udistrital\avanzada\taller\modelo\Jugador.java
-C:\Users\Pc\Documents\NetBeansProjects\SegundoTaller\src\main\java\udistrital\avanzada\taller\modelo\Lanzamiento.java
-C:\Users\Pc\Documents\NetBeansProjects\SegundoTaller\src\main\java\udistrital\avanzada\taller\modelo\Partida.java
-C:\Users\Pc\Documents\NetBeansProjects\SegundoTaller\src\main\java\udistrital\avanzada\taller\modelo\persistencia\ControlPersistencia.java
-C:\Users\Pc\Documents\NetBeansProjects\SegundoTaller\src\main\java\udistrital\avanzada\taller\modelo\persistencia\GestorResultados.java
-C:\Users\Pc\Documents\NetBeansProjects\SegundoTaller\src\main\java\udistrital\avanzada\taller\modelo\Persona.java
-C:\Users\Pc\Documents\NetBeansProjects\SegundoTaller\src\main\java\udistrital\avanzada\taller\modelo\Resultado.java
-C:\Users\Pc\Documents\NetBeansProjects\SegundoTaller\src\main\java\udistrital\avanzada\taller\modelo\TipoLanzamiento.java
-C:\Users\Pc\Documents\NetBeansProjects\SegundoTaller\src\main\java\udistrital\avanzada\taller\vista\Inicio.java
-C:\Users\Pc\Documents\NetBeansProjects\SegundoTaller\src\main\java\udistrital\avanzada\taller\vista\JPanelImage.java
-C:\Users\Pc\Documents\NetBeansProjects\SegundoTaller\src\main\java\udistrital\avanzada\taller\vista\VentanaPrincipal.java
-C:\Users\Pc\Documents\NetBeansProjects\SegundoTaller\src\main\java\udistrital\avanzada\taller\vista\VentanaResultados.java
+C:\Users\juans\OneDrive\Documentos\NetBeansProjects\Juegos Llaneros\SegundoTaller\src\main\java\udistrital\avanzada\taller\control\ControlEquipos.java
+C:\Users\juans\OneDrive\Documentos\NetBeansProjects\Juegos Llaneros\SegundoTaller\src\main\java\udistrital\avanzada\taller\control\ControlInterfaz.java
+C:\Users\juans\OneDrive\Documentos\NetBeansProjects\Juegos Llaneros\SegundoTaller\src\main\java\udistrital\avanzada\taller\control\ControlJugadores.java
+C:\Users\juans\OneDrive\Documentos\NetBeansProjects\Juegos Llaneros\SegundoTaller\src\main\java\udistrital\avanzada\taller\control\ControlLogica.java
+C:\Users\juans\OneDrive\Documentos\NetBeansProjects\Juegos Llaneros\SegundoTaller\src\main\java\udistrital\avanzada\taller\control\ControlPartida.java
+C:\Users\juans\OneDrive\Documentos\NetBeansProjects\Juegos Llaneros\SegundoTaller\src\main\java\udistrital\avanzada\taller\control\Launcher.java
+C:\Users\juans\OneDrive\Documentos\NetBeansProjects\Juegos Llaneros\SegundoTaller\src\main\java\udistrital\avanzada\taller\modelo\Conexion.java
+C:\Users\juans\OneDrive\Documentos\NetBeansProjects\Juegos Llaneros\SegundoTaller\src\main\java\udistrital\avanzada\taller\modelo\Equipo.java
+C:\Users\juans\OneDrive\Documentos\NetBeansProjects\Juegos Llaneros\SegundoTaller\src\main\java\udistrital\avanzada\taller\modelo\Jugador.java
+C:\Users\juans\OneDrive\Documentos\NetBeansProjects\Juegos Llaneros\SegundoTaller\src\main\java\udistrital\avanzada\taller\modelo\Lanzamiento.java
+C:\Users\juans\OneDrive\Documentos\NetBeansProjects\Juegos Llaneros\SegundoTaller\src\main\java\udistrital\avanzada\taller\modelo\Partida.java
+C:\Users\juans\OneDrive\Documentos\NetBeansProjects\Juegos Llaneros\SegundoTaller\src\main\java\udistrital\avanzada\taller\modelo\persistencia\ControlPersistencia.java
+C:\Users\juans\OneDrive\Documentos\NetBeansProjects\Juegos Llaneros\SegundoTaller\src\main\java\udistrital\avanzada\taller\modelo\persistencia\GestorResultados.java
+C:\Users\juans\OneDrive\Documentos\NetBeansProjects\Juegos Llaneros\SegundoTaller\src\main\java\udistrital\avanzada\taller\modelo\Persona.java
+C:\Users\juans\OneDrive\Documentos\NetBeansProjects\Juegos Llaneros\SegundoTaller\src\main\java\udistrital\avanzada\taller\modelo\Resultado.java
+C:\Users\juans\OneDrive\Documentos\NetBeansProjects\Juegos Llaneros\SegundoTaller\src\main\java\udistrital\avanzada\taller\modelo\TipoLanzamiento.java
+C:\Users\juans\OneDrive\Documentos\NetBeansProjects\Juegos Llaneros\SegundoTaller\src\main\java\udistrital\avanzada\taller\vista\Inicio.java
+C:\Users\juans\OneDrive\Documentos\NetBeansProjects\Juegos Llaneros\SegundoTaller\src\main\java\udistrital\avanzada\taller\vista\JPanelImage.java
+C:\Users\juans\OneDrive\Documentos\NetBeansProjects\Juegos Llaneros\SegundoTaller\src\main\java\udistrital\avanzada\taller\vista\VentanaPrincipal.java
+C:\Users\juans\OneDrive\Documentos\NetBeansProjects\Juegos Llaneros\SegundoTaller\src\main\java\udistrital\avanzada\taller\vista\VentanaResultados.java

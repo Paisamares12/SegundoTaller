@@ -1,26 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package udistrital.avanzada.taller.control;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import udistrital.avanzada.taller.modelo.Equipo;
 import udistrital.avanzada.taller.modelo.TipoLanzamiento;
 
 /**
- * Gestiona la lógica de la partida, turnos y lanzamientos.
- * 
+ * Gestiona la lógica de la partida, turnos, lanzamientos y desempates.
+ *
  * Originalmente creada por Juan Estevan Ariza
  * Modificada por Juan Sebastián Bravo Rojas
- * 
+ * Completada según observaciones del Taller 2
+ *
  * @author Juan Ariza
- * @version 5.0 06/10/2025
+ * @version 6.0 06/10/2025
  */
-
-//TODO: Crear el apartado de muerte subita e integrarlo
 public class ControlPartida {
+
     private List<Equipo> equipos;
     private boolean partidaActiva;
     private int puntajeObjetivo;
@@ -29,12 +27,8 @@ public class ControlPartida {
     private int maximoRondas;
     private TipoLanzamiento ultimoLanzamiento;
     private final Random random;
+    private boolean muerteSubitaActiva;
 
-    /**
-     * Constructor base de ControlPartida.
-     * El juego se juega a 21 puntos sin límite de turnos.
-     * Se pueden jugar máximo 2 rondas (la segunda es revancha).
-     */
     public ControlPartida() {
         this.partidaActiva = false;
         this.puntajeObjetivo = 21;
@@ -42,43 +36,36 @@ public class ControlPartida {
         this.rondaActual = 1;
         this.maximoRondas = 2;
         this.random = new Random();
+        this.muerteSubitaActiva = false;
     }
 
     /**
      * Asigna los equipos que participarán en la partida.
-     * 
-     * @param equipos lista de equipos cargados
      */
     public void setEquipos(List<Equipo> equipos) {
         if (equipos == null || equipos.size() < 2) {
             throw new IllegalArgumentException("Debe haber al menos dos equipos para iniciar la partida.");
         }
-        this.equipos = equipos;
+        this.equipos = new ArrayList<>(equipos);
         this.partidaActiva = true;
         this.turnoActual = 0;
         this.rondaActual = 1;
+        this.muerteSubitaActiva = false;
         reiniciarPuntajes();
     }
 
     /**
      * Simula el lanzamiento de argolla del equipo en turno.
-     * 
-     * @return descripción del resultado del lanzamiento
-     * @throws IllegalStateException si no hay partida activa
+     * Si hay más de dos equipos, se sigue un orden circular.
      */
-    
-    //TODO: Revisar ordén para lanzamiento si hay más de dos equipos en el archivo de propiedades, y como seleccionar después más equipos
     public String lanzarArgolla() {
         if (!partidaActiva || equipos == null) {
             throw new IllegalStateException("No hay una partida activa.");
         }
 
         Equipo equipo = equipos.get(turnoActual);
-
-        // Seleccionar aleatoriamente un tipo de lanzamiento
         TipoLanzamiento[] tipos = TipoLanzamiento.values();
         ultimoLanzamiento = tipos[random.nextInt(tipos.length)];
-        
         int puntos = ultimoLanzamiento.getPuntos();
         equipo.sumarPuntos(puntos);
 
@@ -89,10 +76,16 @@ public class ControlPartida {
                 + "  PUNTAJE TOTAL: " + equipo.getPuntaje() + " / " + puntajeObjetivo + "\n"
                 + "╚═══════════════════════════════════════╝";
 
-        // Verificar si ganó (llegó a 21 puntos)
+        // Si un equipo alcanza el puntaje objetivo
         if (equipo.getPuntaje() >= puntajeObjetivo) {
             partidaActiva = false;
             resultado += "\n\n*** ¡" + equipo.getNombre() + " ha GANADO la ronda " + rondaActual + "! ***";
+
+            // Si hay empate al final de la última ronda, activar muerte súbita
+            if (rondaActual == maximoRondas && hayEmpate()) {
+                activarMuerteSubita();
+                resultado += "\n\n⚔ Muerte súbita activada entre equipos empatados ⚔";
+            }
         } else {
             pasarTurno();
         }
@@ -119,7 +112,7 @@ public class ControlPartida {
             }
         }
     }
-    
+
     /**
      * Reinicia completamente la partida para una nueva ronda.
      */
@@ -127,11 +120,11 @@ public class ControlPartida {
         reiniciarPuntajes();
         this.partidaActiva = true;
         this.turnoActual = 0;
+        this.muerteSubitaActiva = false;
     }
 
     /**
-     * Avanza a la siguiente ronda.
-     * @return true si se pudo avanzar, false si se alcanzó el máximo
+     * Avanza a la siguiente ronda, si no hay empate.
      */
     public boolean avanzarRonda() {
         if (rondaActual < maximoRondas) {
@@ -143,6 +136,52 @@ public class ControlPartida {
     }
 
     /**
+     * Determina si hay empate al final de una ronda.
+     */
+    private boolean hayEmpate() {
+        if (equipos == null || equipos.isEmpty()) return false;
+
+        int maxPuntaje = equipos.stream()
+                .mapToInt(Equipo::getPuntaje)
+                .max()
+                .orElse(0);
+
+        long empatados = equipos.stream()
+                .filter(e -> e.getPuntaje() == maxPuntaje)
+                .count();
+
+        return empatados > 1;
+    }
+
+    /**
+     * Activa el modo de muerte súbita entre equipos empatados.
+     */
+    private void activarMuerteSubita() {
+        this.muerteSubitaActiva = true;
+        this.partidaActiva = true;
+
+        int maxPuntaje = equipos.stream()
+                .mapToInt(Equipo::getPuntaje)
+                .max()
+                .orElse(0);
+
+        // Filtrar solo equipos empatados
+        equipos = equipos.stream()
+                .filter(e -> e.getPuntaje() == maxPuntaje)
+                .toList();
+
+        reiniciarPuntajes();
+        turnoActual = 0;
+    }
+
+    /**
+     * Indica si hay una muerte súbita en curso.
+     */
+    public boolean isMuerteSubitaActiva() {
+        return muerteSubitaActiva;
+    }
+
+    /**
      * Indica si la partida sigue activa.
      */
     public boolean isPartidaActiva() {
@@ -150,21 +189,16 @@ public class ControlPartida {
     }
 
     /**
-     * Devuelve el equipo ganador de la ronda actual.
+     * Devuelve el equipo ganador.
      */
     public Equipo getGanador() {
         if (equipos == null) return null;
-        for (Equipo e : equipos) {
-            if (e.getPuntaje() >= puntajeObjetivo) {
-                return e;
-            }
-        }
-        return null;
+
+        return equipos.stream()
+                .max(Comparator.comparingInt(Equipo::getPuntaje))
+                .orElse(null);
     }
 
-    /**
-     * Cambia el puntaje necesario para ganar.
-     */
     public void setPuntajeObjetivo(int nuevoObjetivo) {
         if (nuevoObjetivo <= 0) {
             throw new IllegalArgumentException("El puntaje objetivo debe ser positivo.");
@@ -176,9 +210,6 @@ public class ControlPartida {
         return puntajeObjetivo;
     }
 
-    /**
-     * Devuelve el equipo que tiene el turno actual.
-     */
     public Equipo getEquipoEnTurno() {
         if (equipos == null || equipos.isEmpty()) {
             return null;
@@ -198,9 +229,6 @@ public class ControlPartida {
         return ultimoLanzamiento;
     }
 
-    /**
-     * Verifica si se pueden jugar más rondas.
-     */
     public boolean puedeJugarOtraRonda() {
         return rondaActual < maximoRondas;
     }
