@@ -52,12 +52,6 @@ public class Inicio extends javax.swing.JFrame {
     public void mostrarMensaje(String msg) {
         JOptionPane.showMessageDialog(this, msg);
     }
-
-    public void cerrarVentana() {
-        this.dispose();
-        System.exit(0);
-    }
-
     
     /**
      * Se le genera un get al botonSalir para ser accedido desde otras clases

@@ -5,8 +5,8 @@
 package udistrital.avanzada.taller.vista;
 
 import java.awt.Graphics;
+import java.awt.Image;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -17,26 +17,24 @@ import javax.swing.JPanel;
  * La clase JPanelImage.java ha sido creada con el fin de
  * poner imagenes en paneles
  * 
- * //Codigo sacado de https://www.youtube.com/watch?v=wdoiH4c44pA&t=2s
+ * //Codigo modificado desde https://www.youtube.com/watch?v=wdoiH4c44pA&t=2s
  */
 
 
-public class JPanelImage extends JLabel {
-    
-    private int x,y;
+public class JPanelImage extends JPanel {
+
     private final String path;
-    
-    public JPanelImage(JPanel panel, String path){
+
+    public JPanelImage(JPanel panel, String path) {
         this.path = path;
-        this.x = panel.getWidth();
-        this.y = panel.getHeight();
-        this.setSize(x,y);
+        this.setSize(panel.getWidth(), panel.getHeight());
     }
-    
+
     @Override
-    public void paint(Graphics g){
-        ImageIcon img = new ImageIcon(getClass().getResource(path));
-        g.drawImage(img.getImage(),0,0, x, y, null);
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        ImageIcon icon = new ImageIcon(getClass().getResource(path));
+        Image img = icon.getImage();
+        g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
     }
-    
 }

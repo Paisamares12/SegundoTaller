@@ -13,16 +13,14 @@ import udistrital.avanzada.taller.vista.VentanaPrincipal;
 import udistrital.avanzada.taller.vista.VentanaResultados;
 
 /**
- * Clase encargada de administrar la interfaz y coordinar las vistas.
- * Cumple el principio de responsabilidad única (SRP).
- * Nuevas funcionalidades para mostrar las manos y jugadores en cada lanzamiento
- * 
- * Creada por: Paula Martinez
- * Modificada por: Sebastián Bravo y Juan Ariza
+ * Clase encargada de administrar la interfaz y coordinar las vistas. Cumple el
+ * principio de responsabilidad única (SRP). Nuevas funcionalidades para mostrar
+ * las manos y jugadores en cada lanzamiento
  *
- * @author Paula Martinez   
- * @version 7.0
- * 06/10/2025
+ * Creada por: Paula Martinez Modificada por: Sebastián Bravo y Juan Ariza
+ *
+ * @author Paula Martinez
+ * @version 7.0 06/10/2025
  */
 public class ControlInterfaz implements ActionListener {
 
@@ -60,7 +58,7 @@ public class ControlInterfaz implements ActionListener {
                 inicio.mostrarMensaje("Debe seleccionar un archivo de equipos.");
                 return;
             }
-            
+
             try {
                 cLogica.cargarEquipos(archivo);
                 List<Equipo> equipos = cLogica.getEquipos();
@@ -68,12 +66,12 @@ public class ControlInterfaz implements ActionListener {
                 // Verificar si hay resultados previos
                 if (gestorResultados.existenResultadosPrevios()) {
                     int opcion = JOptionPane.showConfirmDialog(
-                        inicio,
-                        "Se encontraron resultados de partidas anteriores.\n¿Desea verlos antes de comenzar?",
-                        "Resultados Previos",
-                        JOptionPane.YES_NO_OPTION
+                            inicio,
+                            "Se encontraron resultados de partidas anteriores.\n¿Desea verlos antes de comenzar?",
+                            "Resultados Previos",
+                            JOptionPane.YES_NO_OPTION
                     );
-                    
+
                     if (opcion == JOptionPane.YES_OPTION) {
                         mostrarResultadosPrevios();
                     }
@@ -87,16 +85,16 @@ public class ControlInterfaz implements ActionListener {
                 // Listeners de la ventana principal
                 vPrincipal.getBotonLanzarArgollaUno().addActionListener(this);
                 vPrincipal.getBotonLanzarArgollaDos().addActionListener(this);
-                
+
             } catch (IllegalArgumentException ex) {
                 inicio.mostrarMensaje(ex.getMessage());
             }
         }
 
         // Lanzar argolla (desde ventana principal)
-        if (vPrincipal != null && 
-           (e.getSource() == vPrincipal.getBotonLanzarArgollaUno() || 
-            e.getSource() == vPrincipal.getBotonLanzarArgollaDos())) {
+        if (vPrincipal != null
+                && (e.getSource() == vPrincipal.getBotonLanzarArgollaUno()
+                || e.getSource() == vPrincipal.getBotonLanzarArgollaDos())) {
             ejecutarLanzamiento();
         }
     }
@@ -124,10 +122,12 @@ public class ControlInterfaz implements ActionListener {
      */
     private void finalizarRonda() {
         Equipo ganador = cLogica.getGanador();
-        if (ganador == null) return;
-        
+        if (ganador == null) {
+            return;
+        }
+
         int rondaActual = cLogica.getRondaActual();
-        
+
         // Guardar resultados de ambos equipos
         try {
             List<Equipo> equipos = cLogica.getEquipos();
@@ -138,26 +138,26 @@ public class ControlInterfaz implements ActionListener {
         } catch (IOException ex) {
             vPrincipal.mostrarMensaje("Error al guardar resultados: " + ex.getMessage());
         }
-        
+
         // Mostrar ventana de resultados
         VentanaResultados ventanaRes = new VentanaResultados(
-            vPrincipal, 
-            true, 
-            ganador, 
-            cLogica.getEquipos(),
-            rondaActual
+                vPrincipal,
+                true,
+                ganador,
+                cLogica.getEquipos(),
+                rondaActual
         );
         ventanaRes.setVisible(true);
-        
+
         // Preguntar si desea jugar la revancha (segunda ronda)
         if (cLogica.puedeJugarOtraRonda()) {
             int opcion = JOptionPane.showConfirmDialog(
-                vPrincipal,
-                "¿Desean jugar la REVANCHA (Ronda 2)?",
-                "Nueva Ronda",
-                JOptionPane.YES_NO_OPTION
+                    vPrincipal,
+                    "¿Desean jugar la REVANCHA (Ronda 2)?",
+                    "Nueva Ronda",
+                    JOptionPane.YES_NO_OPTION
             );
-            
+
             if (opcion == JOptionPane.YES_OPTION) {
                 iniciarNuevaRonda();
             } else {
@@ -176,7 +176,7 @@ public class ControlInterfaz implements ActionListener {
      */
     private void iniciarNuevaRonda() {
         if (cLogica.avanzarRonda()) {
-            vPrincipal.limpiarResultados();
+            limpiarResultados();
             vPrincipal.actualizarPuntajes();
             vPrincipal.actualizarRonda();
             vPrincipal.mostrarMensaje("¡Nueva ronda iniciada!");
@@ -191,32 +191,32 @@ public class ControlInterfaz implements ActionListener {
             List<String> resultados = gestorResultados.leerTodosLosResultados();
             if (resultados.isEmpty()) {
                 JOptionPane.showMessageDialog(
-                    inicio,
-                    "No hay resultados previos registrados.",
-                    "Resultados",
-                    JOptionPane.INFORMATION_MESSAGE
+                        inicio,
+                        "No hay resultados previos registrados.",
+                        "Resultados",
+                        JOptionPane.INFORMATION_MESSAGE
                 );
                 return;
             }
-            
+
             StringBuilder sb = new StringBuilder();
             sb.append("HISTORIAL DE PARTIDAS\n\n");
             for (String res : resultados) {
                 sb.append(res).append("\n");
             }
-            
+
             JOptionPane.showMessageDialog(
-                inicio,
-                sb.toString(),
-                "Resultados Previos",
-                JOptionPane.INFORMATION_MESSAGE
+                    inicio,
+                    sb.toString(),
+                    "Resultados Previos",
+                    JOptionPane.INFORMATION_MESSAGE
             );
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(
-                inicio,
-                "Error al leer los resultados: " + ex.getMessage(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE
+                    inicio,
+                    "Error al leer los resultados: " + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
             );
         }
     }
@@ -230,33 +230,43 @@ public class ControlInterfaz implements ActionListener {
             if (resultados.isEmpty()) {
                 return;
             }
-            
+
             StringBuilder sb = new StringBuilder();
             sb.append("╔═══════════════════════════════════════════════════════╗\n");
             sb.append("     RESULTADOS FINALES DE TODAS LAS RONDAS\n");
             sb.append("╚═══════════════════════════════════════════════════════╝\n\n");
-            
+
             for (String res : resultados) {
                 sb.append(res).append("\n");
             }
-            
+
             JOptionPane.showMessageDialog(
-                vPrincipal,
-                sb.toString(),
-                "Resultados Finales",
-                JOptionPane.INFORMATION_MESSAGE
+                    vPrincipal,
+                    sb.toString(),
+                    "Resultados Finales",
+                    JOptionPane.INFORMATION_MESSAGE
             );
         } catch (IOException ex) {
             vPrincipal.mostrarMensaje("Error al mostrar resultados finales: " + ex.getMessage());
         }
     }
-    
+
     /**
      * Obtiene el número de ronda actual.
-     * 
+     *
      * @return número de ronda
      */
     public int getRondaActual() {
         return cLogica.getRondaActual();
     }
+
+    /**
+     * Limpia el área de resultados para una nueva ronda
+     */
+    public void limpiarResultados() {
+        this.vPrincipal.getAreaResultados().setText("🔄 Nueva ronda iniciada...\n\n"
+                + "📌 Los puntajes se han reiniciado a 0\n"
+                + "🎯 ¡Que comience la revancha!\n\n");
+    }
+
 }
