@@ -10,7 +10,7 @@ package udistrital.avanzada.taller.modelo;
  * aleatorio.
  *
  * @author Paula Martínez
- * @version 5.0 30/09/2025
+ * @version 7.0 30/09/2025
  */
 public class Resultado {
 

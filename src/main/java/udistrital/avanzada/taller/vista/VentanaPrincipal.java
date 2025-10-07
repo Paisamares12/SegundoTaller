@@ -13,12 +13,16 @@ import udistrital.avanzada.taller.modelo.Jugador;
 
 /**
  * Ventana principal mejorada del juego Argolla Llanera.
+ * Muestra información detallada de los lanzamientos por jugador.
+ * 
+ * Actualizaciones clara del estado de la ronda, mano y partida.
  * 
  * Creada originalmente por Juan Sebastian Bravo Rojas
  * Modificada: Juan Ariza
  * 
  * @author Juan Sebastián Bravo Rojas
- * @version 5.0 - 06/10/2025
+ * @version 7.0 
+ * 06/10/2025
  */
 public class VentanaPrincipal extends JFrame {
 
@@ -32,6 +36,7 @@ public class VentanaPrincipal extends JFrame {
     private JLabel labelPuntajeUno;
     private JLabel labelPuntajeDos;
     private JLabel labelRonda;
+    private JLabel labelTurnoActual;
     private JButton botonLanzarArgollaUno;
     private JButton botonLanzarArgollaDos;
     private JPanel panelEquipoUno;
@@ -73,13 +78,13 @@ public class VentanaPrincipal extends JFrame {
         panelPrincipal.add(panelInferior, BorderLayout.SOUTH);
 
         getContentPane().add(panelPrincipal);
-        setSize(1000, 750);
+        setSize(1000, 800);
     }
 
     private JPanel crearPanelSuperior() {
         JPanel panel = new JPanel();
         panel.setBackground(new Color(139, 69, 19));
-        panel.setPreferredSize(new Dimension(1000, 80));
+        panel.setPreferredSize(new Dimension(1000, 100));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         JLabel titulo = new JLabel("ARGOLLA LLANERA");
@@ -90,9 +95,14 @@ public class VentanaPrincipal extends JFrame {
         labelRonda.setFont(new Font("Arial", Font.BOLD, 18));
         labelRonda.setForeground(Color.YELLOW);
         
-        panel.setLayout(new GridLayout(2, 1));
+        labelTurnoActual = new JLabel("Turno: " + (equipos.isEmpty() ? "" : equipos.get(0).getNombre()));
+        labelTurnoActual.setFont(new Font("Arial", Font.BOLD, 16));
+        labelTurnoActual.setForeground(Color.CYAN);
+        
+        panel.setLayout(new GridLayout(3, 1));
         panel.add(titulo);
         panel.add(labelRonda);
+        panel.add(labelTurnoActual);
 
         return panel;
     }
@@ -144,21 +154,30 @@ public class VentanaPrincipal extends JFrame {
         labelPuntaje.setAlignmentX(Component.CENTER_ALIGNMENT);
         labelPuntaje.setForeground(Color.BLACK);
 
-        // Información de jugadores
+        // Información de jugadores con formato mejorado
         JTextArea infoJugadores = new JTextArea();
         infoJugadores.setEditable(false);
-        infoJugadores.setFont(new Font("Monospaced", Font.PLAIN, 13));
+        infoJugadores.setFont(new Font("Monospaced", Font.PLAIN, 12));
         infoJugadores.setBackground(new Color(255, 255, 240));
-        infoJugadores.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        infoJugadores.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(Color.BLACK, 2),
+            BorderFactory.createEmptyBorder(5, 5, 5, 5)
+        ));
         
         StringBuilder sb = new StringBuilder();
-        sb.append("JUGADORES:\n\n");
+        sb.append("╔════════════════════════════════╗\n");
+        sb.append("║       JUGADORES DEL EQUIPO      ║\n");
+        sb.append("╠════════════════════════════════╣\n");
         List<Jugador> jugadores = equipo.getJugadores();
         for (int i = 0; i < Math.min(4, jugadores.size()); i++) {
             Jugador j = jugadores.get(i);
-            sb.append(String.format("  %d. %s\n", i+1, j.getNombre()));
-            sb.append(String.format("     \"%s\"\n\n", j.getApodo()));
+            sb.append(String.format("║ %d. %-26s ║\n", i+1, j.getNombre()));
+            sb.append(String.format("║    \"%s\"%s║\n", 
+                j.getApodo(), 
+                " ".repeat(Math.max(0, 26 - j.getApodo().length()))));
+            if (i < 3) sb.append("║                                 ║\n");
         }
+        sb.append("╚════════════════════════════════╝");
         infoJugadores.setText(sb.toString());
         
         if (indice == 0) {
@@ -168,8 +187,8 @@ public class VentanaPrincipal extends JFrame {
         }
 
         JScrollPane scrollJugadores = new JScrollPane(infoJugadores);
-        scrollJugadores.setPreferredSize(new Dimension(400, 200));
-        scrollJugadores.setMaximumSize(new Dimension(400, 200));
+        scrollJugadores.setPreferredSize(new Dimension(400, 220));
+        scrollJugadores.setMaximumSize(new Dimension(400, 220));
 
         // Botón de lanzar
         JButton botonLanzar = new JButton("LANZAR ARGOLLA");
@@ -192,9 +211,9 @@ public class VentanaPrincipal extends JFrame {
         panel.add(labelNombre);
         panel.add(Box.createRigidArea(new Dimension(0, 10)));
         panel.add(labelPuntaje);
-        panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        panel.add(Box.createRigidArea(new Dimension(0, 15)));
         panel.add(scrollJugadores);
-        panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        panel.add(Box.createRigidArea(new Dimension(0, 15)));
         panel.add(botonLanzar);
 
         return panel;
@@ -205,18 +224,23 @@ public class VentanaPrincipal extends JFrame {
         panel.setBackground(new Color(245, 245, 220));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        JLabel labelTitulo = new JLabel("HISTORIAL DE LANZAMIENTOS");
-        labelTitulo.setFont(new Font("Arial", Font.BOLD, 16));
+        JLabel labelTitulo = new JLabel("📋 HISTORIAL DE LANZAMIENTOS - Sistema de Manos (4 lanzamientos por equipo)");
+        labelTitulo.setFont(new Font("Arial", Font.BOLD, 14));
         labelTitulo.setForeground(new Color(139, 69, 19));
 
         areaResultados = new JTextArea();
         areaResultados.setEditable(false);
-        areaResultados.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        areaResultados.setFont(new Font("Monospaced", Font.PLAIN, 11));
         areaResultados.setBackground(new Color(255, 255, 240));
-        areaResultados.setText("Esperando el primer lanzamiento...\n");
+        areaResultados.setText("🎯 Esperando el primer lanzamiento...\n\n" +
+                               "📌 REGLAS:\n" +
+                               "   • Cada equipo lanza 4 veces por turno (uno por jugador)\n" +
+                               "   • El objetivo es llegar a 21 puntos\n" +
+                               "   • Si un equipo llega a 21, el otro completa su mano\n" +
+                               "   • En caso de empate: MUERTE SÚBITA\n\n");
 
         JScrollPane scroll = new JScrollPane(areaResultados);
-        scroll.setPreferredSize(new Dimension(960, 200));
+        scroll.setPreferredSize(new Dimension(960, 180));
 
         panel.add(labelTitulo, BorderLayout.NORTH);
         panel.add(scroll, BorderLayout.CENTER);
@@ -224,11 +248,17 @@ public class VentanaPrincipal extends JFrame {
         return panel;
     }
 
+    /**
+     * Actualiza el área de resultados con nueva información
+     */
     public void actualizarResultado(String texto) {
         areaResultados.append(texto + "\n\n");
         areaResultados.setCaretPosition(areaResultados.getDocument().getLength());
     }
 
+    /**
+     * Actualiza los puntajes mostrados de ambos equipos
+     */
     public void actualizarPuntajes() {
         if (equipos.size() >= 2) {
             labelPuntajeUno.setText("Puntaje: " + equipos.get(0).getPuntaje());
@@ -236,15 +266,32 @@ public class VentanaPrincipal extends JFrame {
         }
     }
 
+    /**
+     * Actualiza la etiqueta de ronda actual
+     */
     public void actualizarRonda() {
-        // Obtener la ronda actual desde el control
         labelRonda.setText("RONDA " + control.getRondaActual() + " de 2 - Juego a 21 puntos");
     }
-
-    public void limpiarResultados() {
-        areaResultados.setText("Nueva ronda iniciada...\n\n");
+    
+    /**
+     * Actualiza la etiqueta del turno actual
+     */
+    public void actualizarTurno(String nombreEquipo) {
+        labelTurnoActual.setText("🎯 Turno: " + nombreEquipo);
     }
 
+    /**
+     * Limpia el área de resultados para una nueva ronda
+     */
+    public void limpiarResultados() {
+        areaResultados.setText("🔄 Nueva ronda iniciada...\n\n" +
+                               "📌 Los puntajes se han reiniciado a 0\n" +
+                               "🎯 ¡Que comience la revancha!\n\n");
+    }
+
+    /**
+     * Muestra un mensaje en un diálogo
+     */
     public void mostrarMensaje(String msg) {
         JOptionPane.showMessageDialog(this, msg);
     }

@@ -12,31 +12,31 @@ package udistrital.avanzada.taller.modelo;
  * Modificada por Juan Sebastián Bravo Rojas
  * 
  * @author Paula Martínez
- * @version 5.0
+ * @version 7.0
  * 06/10/2025
  */
 public class Jugador extends Persona {
     
-    //Atributos
     private String apodo;
     private String rutaFoto;
 
     /**
-     *  Construye un nuevo jugador con los datos especificados.
-     * @param Apodo
-     * @param foto
-     * @param nombre 
+     * Construye un nuevo jugador con los datos especificados.
+     * 
+     * @param nombre nombre real del jugador
+     * @param rutaFoto ruta de la foto del jugador
+     * @param apodo apodo del jugador
      */
     public Jugador(String nombre, String rutaFoto, String apodo) {
-    super(nombre == null || nombre.isBlank() ? "Sin nombre" : nombre);
-    this.apodo = (apodo != null) ? apodo : "";
-    this.rutaFoto = (rutaFoto != null) ? rutaFoto : "";
-}
+        super(nombre == null || nombre.isBlank() ? "Sin nombre" : nombre);
+        this.apodo = (apodo != null && !apodo.isBlank()) ? apodo : "Sin apodo";
+        this.rutaFoto = (rutaFoto != null && !rutaFoto.isBlank()) ? rutaFoto : "sin_foto.jpg";
+    }
     
     /**
      * Obtiene el apodo del jugador.
      * 
-     * @return nombre del jugador
+     * @return apodo del jugador
      */
     public String getApodo() {
         return apodo;
@@ -45,10 +45,12 @@ public class Jugador extends Persona {
     /**
      * Modifica el apodo del jugador.
      * 
-     * @param Apodo nuevo apodo
+     * @param apodo nuevo apodo
      */
-    public void setApodo(String Apodo) {
-        this.apodo = Apodo;
+    public void setApodo(String apodo) {
+        if (apodo != null && !apodo.isBlank()) {
+            this.apodo = apodo;
+        }
     }
     
     /**
@@ -63,14 +65,29 @@ public class Jugador extends Persona {
     /**
      * Modifica la ruta de la foto
      * 
-     * @param foto nueva foto
+     * @param rutaFoto nueva ruta de foto
      */
-    public void setRutaFoto(String foto) {
-        this.rutaFoto = foto;
+    public void setRutaFoto(String rutaFoto) {
+        if (rutaFoto != null && !rutaFoto.isBlank()) {
+            this.rutaFoto = rutaFoto;
+        }
     }
     
+    @Override
+    public String toString() {
+        return getNombre() + " (" + apodo + ")";
+    }
     
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Jugador jugador = (Jugador) obj;
+        return apodo.equals(jugador.apodo);
+    }
     
-    
-    
+    @Override
+    public int hashCode() {
+        return apodo.hashCode();
+    }
 }

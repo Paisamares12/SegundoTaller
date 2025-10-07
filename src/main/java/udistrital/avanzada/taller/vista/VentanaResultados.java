@@ -18,7 +18,7 @@ import udistrital.avanzada.taller.modelo.Jugador;
  * Ventana emergente que muestra los resultados de una ronda.
  * 
  * @author Juan Ariza
- * @version 5.0
+ * @version 7.0
  * 06/10/2025
  */
 public class VentanaResultados extends JDialog {

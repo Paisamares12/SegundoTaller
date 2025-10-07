@@ -16,6 +16,8 @@ import udistrital.avanzada.taller.modelo.Jugador;
  * Clase encargada de gestionar la persistencia de resultados
  * en un archivo de acceso aleatorio.
  * 
+ * Arreglo para persistir correctamente los nombres de los jugadores
+ * 
  * Estructura del registro:
  * - Clave (int): 4 bytes
  * - Nombre Equipo (String): 50 chars = 100 bytes
@@ -30,7 +32,7 @@ import udistrital.avanzada.taller.modelo.Jugador;
  * Total: 572 bytes por registro
  * 
  * @author Juan Ariza
- * @version 5.0
+ * @version 7.0
  * 06/10/2025
  */
 public class GestorResultados {
@@ -59,6 +61,10 @@ public class GestorResultados {
      * @throws IOException si hay error al escribir
      */
     public void guardarResultado(Equipo equipo, String resultado, int ronda) throws IOException {
+        if (equipo == null) {
+            throw new IllegalArgumentException("El equipo no puede ser nulo");
+        }
+        
         try (RandomAccessFile raf = new RandomAccessFile(archivo, "rw")) {
             // Ir al final del archivo
             raf.seek(raf.length());
@@ -74,18 +80,23 @@ public class GestorResultados {
             
             // Escribir jugadores (máximo 4)
             List<Jugador> jugadores = equipo.getJugadores();
+            if (jugadores == null) {
+                jugadores = new ArrayList<>();
+            }
+            
             for (int i = 0; i < 4; i++) {
                 if (i < jugadores.size() && jugadores.get(i) != null) {
-                    String nombreJugador = jugadores.get(i).getNombre() + 
-                                         " (" + jugadores.get(i).getApodo() + ")";
-                    escribirString(raf, nombreJugador, LONGITUD_NOMBRE_JUGADOR);
+                    Jugador j = jugadores.get(i);
+                    String nombreCompleto = (j.getNombre() != null ? j.getNombre() : "Sin nombre") + 
+                                          " (" + (j.getApodo() != null ? j.getApodo() : "Sin apodo") + ")";
+                    escribirString(raf, nombreCompleto, LONGITUD_NOMBRE_JUGADOR);
                 } else {
                     escribirString(raf, "---", LONGITUD_NOMBRE_JUGADOR);
                 }
             }
             
             // Escribir resultado
-            escribirString(raf, resultado, LONGITUD_RESULTADO);
+            escribirString(raf, resultado != null ? resultado : "DESCONOCIDO", LONGITUD_RESULTADO);
             
             // Escribir puntaje final
             raf.writeInt(equipo.getPuntaje());
@@ -137,9 +148,9 @@ public class GestorResultados {
                 
                 // Construir string formateado
                 StringBuilder sb = new StringBuilder();
-                sb.append("═══════════════════════════════════════════════════\n");
+                sb.append("╔═══════════════════════════════════════════════════════╗\n");
                 sb.append("REGISTRO #").append(clave).append(" - RONDA ").append(ronda).append("\n");
-                sb.append("═══════════════════════════════════════════════════\n");
+                sb.append("╠═══════════════════════════════════════════════════════╣\n");
                 sb.append("Equipo: ").append(nombreEquipo).append("\n");
                 sb.append("Puntaje Final: ").append(puntaje).append(" puntos\n");
                 sb.append("Resultado: ").append(resultado).append("\n");
@@ -149,7 +160,7 @@ public class GestorResultados {
                 sb.append("  2. ").append(jugador2).append("\n");
                 sb.append("  3. ").append(jugador3).append("\n");
                 sb.append("  4. ").append(jugador4).append("\n");
-                sb.append("═══════════════════════════════════════════════════\n");
+                sb.append("╚═══════════════════════════════════════════════════════╝\n");
                 
                 resultados.add(sb.toString());
             }
@@ -167,6 +178,10 @@ public class GestorResultados {
      * @throws IOException si hay error al escribir
      */
     private void escribirString(RandomAccessFile raf, String texto, int longitud) throws IOException {
+        if (texto == null) {
+            texto = "";
+        }
+        
         StringBuilder sb = new StringBuilder(texto);
         
         // Ajustar la longitud
