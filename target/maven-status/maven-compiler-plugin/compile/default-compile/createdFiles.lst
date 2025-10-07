@@ -1,8 +1,10 @@
 udistrital\avanzada\taller\control\ControlPartida.class
 udistrital\avanzada\taller\vista\Inicio.class
+udistrital\avanzada\taller\vista\VentanaCrearEquipos$1.class
 udistrital\avanzada\taller\modelo\Conexion.class
 udistrital\avanzada\taller\control\ControlEquipos.class
 udistrital\avanzada\taller\modelo\Jugador.class
+udistrital\avanzada\taller\vista\VentanaCrearEquipos.class
 udistrital\avanzada\taller\control\ControlInterfaz.class
 udistrital\avanzada\taller\modelo\Lanzamiento.class
 udistrital\avanzada\taller\modelo\Partida.class
@@ -14,5 +16,6 @@ udistrital\avanzada\taller\vista\VentanaPrincipal.class
 udistrital\avanzada\taller\vista\VentanaResultados.class
 udistrital\avanzada\taller\modelo\persistencia\ControlPersistencia.class
 udistrital\avanzada\taller\modelo\Equipo.class
+udistrital\avanzada\taller\vista\VentanaCrearEquipos$2.class
 udistrital\avanzada\taller\modelo\TipoLanzamiento.class
 udistrital\avanzada\taller\control\ControlLogica.class

@@ -18,6 +18,10 @@ import udistrital.avanzada.taller.modelo.Jugador;
  * 
  * Arreglo para persistir correctamente los nombres de los jugadores
  * 
+ * 
+ * Originalmente creada por Juan Ariza
+ * Modificada por Juan Sebastián Bravo Rojas
+ * 
  * Estructura del registro:
  * - Clave (int): 4 bytes
  * - Nombre Equipo (String): 50 chars = 100 bytes
@@ -32,7 +36,7 @@ import udistrital.avanzada.taller.modelo.Jugador;
  * Total: 572 bytes por registro
  * 
  * @author Juan Ariza
- * @version 7.0
+ * @version 8.0
  * 06/10/2025
  */
 public class GestorResultados {
@@ -49,8 +53,14 @@ public class GestorResultados {
      * Constructor que inicializa el archivo de resultados.
      */
     public GestorResultados() {
-        this.archivo = new File(NOMBRE_ARCHIVO);
+        File carpetaData = new File("src/main/java/data");
+        if (!carpetaData.exists()) {
+            carpetaData.mkdirs();
+        }
+
+        this.archivo = new File(carpetaData, NOMBRE_ARCHIVO);
     }
+
     
     /**
      * Guarda el resultado de un equipo en el archivo.
